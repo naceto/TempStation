@@ -37,19 +37,37 @@ namespace TempStation.Controllers
 
         public IActionResult Temperature()
         {
-            var tempDbData = _dbContext.Temperatures.OrderByDescending(t => t.Id).Take(50);
-            var viewTempData = new List<TemperatureViewModel>();
+            var tempDbData = _dbContext.Temperatures.OrderBy(t => t.Id).Take(50);
+
+            var viewChartData = new TemperatureChartViewModel<double>
+            {
+                Datasets = new List<TemperatureDataset<double>>
+                {
+                    new TemperatureDataset<double>
+                    {
+                        Label = "Temperature",
+                        YaxisID = "y-axis-1",
+                        BorderColor = "rgb(255, 99, 132)",
+                        BackgroundColor = "rgb(255, 99, 132)"
+                    },
+                    new TemperatureDataset<double>
+                    {
+                        Label = "Humidity",
+                        YaxisID = "y-axis-2",
+                        BorderColor = "rgb(54, 162, 235)",
+                        BackgroundColor = "rgb(54, 162, 235)"
+                    }
+                }
+            };
+
             foreach (var temp in tempDbData) 
             {
-                viewTempData.Add(new TemperatureViewModel
-                {
-                    Temperature = temp.Temperature,
-                    Humidity = temp.Humidity,
-                    DateTime = temp.DateTime
-                });
+                viewChartData.Labels.Add(temp.DateTime.ToString("hh:mm"));
+                viewChartData.Datasets[0].Data.Add(temp.Temperature);
+                viewChartData.Datasets[1].Data.Add(temp.Humidity);
             }
 
-            return View(viewTempData);
+            return View(viewChartData);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

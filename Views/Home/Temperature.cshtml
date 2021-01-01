@@ -1,38 +1,16 @@
-﻿@model IEnumerable<TemperatureViewModel>
+﻿@using Newtonsoft.Json;
+
+@model TemperatureChartViewModel<double>
 @{
     ViewData["Title"] = "Temperature";
 }
 
 <div class="text-center">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Temperature)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Humidity)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateTime)
-                </th>
-            </tr>
-        <thead>
-        <tbody>
-            @foreach (var item in Model) 
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Temperature)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Humidity)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DateTime)
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <canvas id="tempChart"></canvas>
+    <div style="display: none" id="tempData">@Html.Raw(JsonConvert.SerializeObject(Model))</div>
 </div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="~/js/temperature.js" asp-append-version="true"></script>
+}

@@ -24,8 +24,7 @@ namespace TempStation.Services
         public DHTService(
             ILogger<DHTService> logger,
             Dht11 dhtController,
-            IServiceProvider serviceProvider
-            )
+            IServiceProvider serviceProvider)
         {
             _logger = logger;
             _dht = dhtController;
