@@ -1,0 +1,38 @@
+﻿@model IEnumerable<TemperatureViewModel>
+@{
+    ViewData["Title"] = "Temperature";
+}
+
+<div class="text-center">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Temperature)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Humidity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateTime)
+                </th>
+            </tr>
+        <thead>
+        <tbody>
+            @foreach (var item in Model) 
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Temperature)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Humidity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateTime)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

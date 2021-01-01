@@ -8,6 +8,12 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Iot.Device.DHTxx;
+
+using TempStation.Data;
+using TempStation.Services;
+
 
 namespace TempStation
 {
@@ -23,6 +29,13 @@ namespace TempStation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<TemperatureDbContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddSingleton(new Dht11(14));
+
+            services.AddHostedService<DHTService>();
+
             services.AddControllersWithViews();
         }
 
