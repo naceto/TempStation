@@ -14,30 +14,18 @@ namespace TempStation.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly Dht11 _dht11;
         private readonly TemperatureDbContext _dbContext;
 
-        public HomeController(ILogger<HomeController> logger, Dht11 dht11, TemperatureDbContext dbContext)
+        public HomeController(ILogger<HomeController> logger, TemperatureDbContext dbContext)
         {
             _logger = logger;
-            _dht11 = dht11;
             _dbContext = dbContext;
         }
 
+        [ResponseCache(Duration = 60 * 60, Location = ResponseCacheLocation.Any)]
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 60 * 60, Location = ResponseCacheLocation.Any)]
-        public IActionResult Temperature()
-        {
-            _logger.LogInformation($"{nameof(HomeController.Temperature)} called.");
+            _logger.LogInformation($"{nameof(HomeController.Index)} called.");
             var tempChartData = new ChartData<double>
             {
                 Datasets = new List<ChartDataset<double>>

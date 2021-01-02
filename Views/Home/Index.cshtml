@@ -1,8 +1,17 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Newtonsoft.Json;
+
+@model TemperatureAndHumidityChartViewModel<double>
+@{
+    ViewData["Title"] = "Home";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <canvas id="tempChart"></canvas>
+    <canvas id="humiChart"></canvas>
+    <div style="display: none" id="tempData">@Html.Raw(JsonConvert.SerializeObject(Model))</div>
 </div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="~/js/temperature.js" asp-append-version="true"></script>
+}
