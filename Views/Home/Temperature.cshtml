@@ -1,12 +1,13 @@
 ﻿@using Newtonsoft.Json;
 
-@model TemperatureChartViewModel<double>
+@model TemperatureAndHumidityChartViewModel<double>
 @{
     ViewData["Title"] = "Temperature";
 }
 
 <div class="text-center">
     <canvas id="tempChart"></canvas>
+    <canvas id="humiChart"></canvas>
     <div style="display: none" id="tempData">@Html.Raw(JsonConvert.SerializeObject(Model))</div>
 </div>
 

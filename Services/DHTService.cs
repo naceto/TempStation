@@ -9,7 +9,7 @@ using System.Device.Gpio;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using TempStation.Models;
+using TempStation.Data.Models;
 using TempStation.Data;
 
 namespace TempStation.Services
@@ -44,7 +44,7 @@ namespace TempStation.Services
         private void DoWork(object state)
         {
             _logger.LogInformation("DHT Service is working.");
-            var temperature = new TemperatureDbModel 
+            var temperature = new TemperatureData 
             {
                 Temperature = _dht.Temperature.Value,
                 Humidity = _dht.Humidity.Value,
@@ -58,7 +58,7 @@ namespace TempStation.Services
                 using (var scope = _serviceProvider.CreateScope()) 
                 {
                     var dbContext = scope.ServiceProvider.GetService<TemperatureDbContext>();
-                    dbContext.Add<TemperatureDbModel>(temperature);
+                    dbContext.Add<TemperatureData>(temperature);
                     dbContext.SaveChanges();
                 }
             }

@@ -1,11 +1,11 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TempStation.Models
+namespace TempStation.Data.Models
 {
-    public class TemperatureDbModel
+    public class TemperatureData
     {
-        public TemperatureDbModel() 
+        public TemperatureData() 
         {
             DateTime = DateTime.UtcNow;
         }

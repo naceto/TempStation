@@ -2,25 +2,11 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace TempStation.Models
+namespace TempStation.Classes.Charts
 {
-    public class TemperatureChartViewModel<T>
+    public class ChartDataset<T>
     {
-        public TemperatureChartViewModel()
-        {
-            Labels = new List<string>();
-        }
-
-        [JsonProperty("datasets")]
-        public IList<TemperatureDataset<T>> Datasets { get; set; }
-
-        [JsonProperty("labels")]
-        public IList<string> Labels { get; set; }
-    }
-
-    public class TemperatureDataset<T>
-    {
-        public TemperatureDataset()
+        public ChartDataset()
         {
             Data = new List<T>();
         }
