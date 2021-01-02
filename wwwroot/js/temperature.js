@@ -1,4 +1,3 @@
-debugger;
 var data = document.getElementById('tempData').innerText;
 var parsedData = JSON.parse(data);
 

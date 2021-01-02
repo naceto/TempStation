@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Iot.Device.DHTxx;
 using TempStation.Data;
 using TempStation.Services;
-
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace TempStation
 {
@@ -32,9 +32,7 @@ namespace TempStation
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddSingleton(new Dht11(14));
-
             services.AddHostedService<DHTService>();
-
             services.AddControllersWithViews();
         }
 
@@ -55,6 +53,13 @@ namespace TempStation
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

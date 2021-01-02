@@ -1,16 +1,13 @@
-﻿using System;
+﻿using Iot.Device.DHTxx;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using TempStation.Models;
-using Iot.Device.DHTxx;
-using Microsoft.EntityFrameworkCore;
-using TempStation.Data;
-using TempStation.Data.Models;
 using TempStation.Classes.Charts;
+using TempStation.Data;
+using TempStation.Models;
 
 namespace TempStation.Controllers
 {
@@ -18,7 +15,7 @@ namespace TempStation.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly Dht11 _dht11;
-        private readonly TemperatureDbContext _dbContext; 
+        private readonly TemperatureDbContext _dbContext;
 
         public HomeController(ILogger<HomeController> logger, Dht11 dht11, TemperatureDbContext dbContext)
         {
@@ -37,9 +34,10 @@ namespace TempStation.Controllers
             return View();
         }
 
+        [ResponseCache(Duration = 60 * 60, Location = ResponseCacheLocation.Any)]
         public IActionResult Temperature()
         {
-
+            _logger.LogInformation($"{nameof(HomeController.Temperature)} called.");
             var tempChartData = new ChartData<double>
             {
                 Datasets = new List<ChartDataset<double>>
@@ -53,7 +51,7 @@ namespace TempStation.Controllers
                     }
                 }
             };
-            
+
             var humiChartData = new ChartData<double>
             {
                 Datasets = new List<ChartDataset<double>>
@@ -73,19 +71,19 @@ namespace TempStation.Controllers
                     .OrderByDescending(t => t.Id)
                     .Where(t => t.DateTime >= DateTime.UtcNow.AddHours(-24))
                     .GroupBy(t => new { t.DateTime.Date, t.DateTime.Hour })
-                    .Select(g => new 
-                    { 
-                        DateTime = new DateTime(g.Key.Date.Year, g.Key.Date.Month, g.Key.Date.Day, g.Key.Hour, 0, 0),
+                    .Select(g => new
+                    {
+                        DateTime = new DateTime(g.Key.Date.Year, g.Key.Date.Month, g.Key.Date.Day, g.Key.Hour, 0, 0).ToLocalTime(),
                         Temperature = g.Average(gt => gt.Temperature),
                         Humidity = g.Average(gt => gt.Humidity)
                     });
 
-            var labels = new List<string>();
-            foreach (var temp in tempDbData) 
+            var labels = new List<string>(24);
+            foreach (var temp in tempDbData)
             {
-                labels.Add(temp.DateTime.ToString("hh:mm"));
-                tempChartData.Datasets[0].Data.Add(temp.Temperature);
-                humiChartData.Datasets[0].Data.Add(temp.Humidity);
+                labels.Add(temp.DateTime.ToString("HH:mm"));
+                tempChartData.Datasets[0].Data.Add(Math.Round(temp.Temperature, 2));
+                humiChartData.Datasets[0].Data.Add(Math.Round(temp.Humidity, 2));
             }
 
             tempChartData.Labels = labels;
