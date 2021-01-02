@@ -68,13 +68,19 @@ namespace TempStation.Controllers
                 }
             };
 
-            var labels = new List<string>();
             var tempDbData = _dbContext
                     .Temperatures
                     .OrderByDescending(t => t.Id)
-                    .Where(t => t.DateTime >= DateTime.UtcNow.AddHours(-12))
-                    .OrderBy(t => t.Id);
+                    .Where(t => t.DateTime >= DateTime.UtcNow.AddHours(-24))
+                    .GroupBy(t => new { t.DateTime.Date, t.DateTime.Hour })
+                    .Select(g => new 
+                    { 
+                        DateTime = new DateTime(g.Key.Date.Year, g.Key.Date.Month, g.Key.Date.Day, g.Key.Hour, 0, 0),
+                        Temperature = g.Average(gt => gt.Temperature),
+                        Humidity = g.Average(gt => gt.Humidity)
+                    });
 
+            var labels = new List<string>();
             foreach (var temp in tempDbData) 
             {
                 labels.Add(temp.DateTime.ToString("hh:mm"));
