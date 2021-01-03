@@ -1,14 +1,19 @@
 ﻿@using Newtonsoft.Json;
 
-@model TemperatureAndHumidityChartViewModel<double>
+@model IndexViewModel
 @{
     ViewData["Title"] = "Home";
 }
 
 <div class="text-center">
-    <canvas id="tempChart"></canvas>
-    <canvas id="humiChart"></canvas>
-    <div style="display: none" id="tempData">@Html.Raw(JsonConvert.SerializeObject(Model))</div>
+    <div id="current-temperature">
+        <h2>Latest reading: @(Model.TakenAtTime)</h2>
+        <div id="temperature">@(Model.CurrentTemperature)&#8451;</div><div id="humidity">@(Model.CurrentHumidity)%</div>
+    </div>
+    <hr>
+    <canvas id="temp-chart"></canvas>
+    <canvas id="humi-chart"></canvas>
+    <div style="display: none" id="temp-data">@Html.Raw(JsonConvert.SerializeObject(Model))</div>
 </div>
 
 @section Scripts {

@@ -1,7 +1,7 @@
-var data = document.getElementById('tempData').innerText;
+var data = document.getElementById('temp-data').innerText;
 var parsedData = JSON.parse(data);
 
-var tempCtx = document.getElementById('tempChart').getContext('2d');
+var tempCtx = document.getElementById('temp-chart').getContext('2d');
 var chart = new Chart(tempCtx, {
     // The type of chart we want to create
     type: 'line',
@@ -16,7 +16,7 @@ var chart = new Chart(tempCtx, {
         stacked: false,
         title: {
             display: true,
-            text: 'Temperature'
+            text: 'Temperature 24 Hours'
         },
         scales: {
             yAxes: [{
@@ -24,12 +24,16 @@ var chart = new Chart(tempCtx, {
                 display: true,
                 position: 'right',
                 id: 'y-axis-1',
+                ticks: {
+                    suggestedMin: 15,
+                    suggestedMax: 35,
+                }
             }],
         }
     }
 });
 
-var humiCtx = document.getElementById('humiChart').getContext('2d');
+var humiCtx = document.getElementById('humi-chart').getContext('2d');
 var chart = new Chart(humiCtx, {
     // The type of chart we want to create
     type: 'line',
@@ -44,7 +48,7 @@ var chart = new Chart(humiCtx, {
         stacked: false,
         title: {
             display: true,
-            text: 'Humidity'
+            text: 'Humidity 24 Hours'
         },
         scales: {
             yAxes: [{
@@ -52,6 +56,10 @@ var chart = new Chart(humiCtx, {
                 display: true,
                 position: 'right',
                 id: 'y-axis-2',
+                ticks: {
+                    suggestedMin: 30,
+                    suggestedMax: 80
+                }
             }],
         }
     }

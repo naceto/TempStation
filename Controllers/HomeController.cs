@@ -13,6 +13,7 @@ namespace TempStation.Controllers
 {
     public class HomeController : Controller
     {
+        private const string TimeFormat = "H:mm";
         private readonly ILogger<HomeController> _logger;
         private readonly TemperatureDbContext _dbContext;
 
@@ -66,22 +67,34 @@ namespace TempStation.Controllers
                         Humidity = g.Average(gt => gt.Humidity)
                     });
 
-            var labels = new List<string>(24);
-            foreach (var temp in tempDbData)
+            var labels = new List<string>();
+            if (tempDbData != null) 
             {
-                labels.Add(temp.DateTime.ToString("HH:mm"));
-                tempChartData.Datasets[0].Data.Add(Math.Round(temp.Temperature, 2));
-                humiChartData.Datasets[0].Data.Add(Math.Round(temp.Humidity, 2));
+                foreach (var temp in tempDbData)
+                {
+                    labels.Add(temp.DateTime.ToString(TimeFormat));
+                    tempChartData.Datasets[0].Data.Add(Math.Round(temp.Temperature, 1));
+                    humiChartData.Datasets[0].Data.Add(Math.Round(temp.Humidity, 1));
+                }
             }
 
             tempChartData.Labels = labels;
             humiChartData.Labels = labels;
 
-            var chartViewData = new TemperatureAndHumidityChartViewModel<double>
+            var chartViewData = new IndexViewModel
             {
                 TemperatureChartData = tempChartData,
                 HumidityChartData = humiChartData
             };
+
+            // latest temperature
+            var latestTemperature = _dbContext.Temperatures.OrderByDescending(t => t.Id).FirstOrDefault();
+            if (latestTemperature != null)
+            {
+                chartViewData.CurrentTemperature = Math.Round(latestTemperature.Temperature, 2).ToString();
+                chartViewData.CurrentHumidity = Math.Round(latestTemperature.Humidity, 2).ToString();
+                chartViewData.TakenAtTime = latestTemperature.DateTime.ToLocalTime().ToString(TimeFormat + ":ss");
+            }
 
             return View(chartViewData);
         }

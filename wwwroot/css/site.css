@@ -69,3 +69,31 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+#temperature, #humidity {
+  display: inline-block;
+  width: 50%;
+  box-sizing: border-box;
+  height: 100px;
+  margin: auto;
+  padding: 11px;
+  font-size: 50px;
+  color: white;
+}
+
+#temperature {
+  background-color: crimson;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+#humidity {
+  background-color: teal;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+#current-temperature {
+  width: 100%;
+  box-sizing: border-box;
+}
