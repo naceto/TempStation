@@ -29,12 +29,12 @@ namespace TempStation
         {
             services.AddDbContext<TemperatureDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"), 
-                b => b.MigrationsAssembly("TempStation.Data")));
+                b => b.MigrationsAssembly("TempStation")));
 
             services.AddSingleton(new Dht11(14));
             services.AddHostedService<DHTService>();
             services.AddControllersWithViews();
-            services.AddTransient<ITemperatureDbContext, TemperatureDbContext>();
+            //services.AddTransient<ITemperatureDbContext, TemperatureDbContext>();
             services.AddTransient<IRepository<TemperatureData>, GenericRepository<TemperatureData>>();
             services.AddTransient<ITemperatureService, TemperatureService>();
         }
