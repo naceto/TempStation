@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TempStation.Data.Models\TempStation.Data.Models.csproj" />
+    <ProjectReference Include="..\TempStation.Data\TempStation.Data.csproj" />
+  </ItemGroup>
+
+</Project>
