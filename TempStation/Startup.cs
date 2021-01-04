@@ -34,7 +34,6 @@ namespace TempStation
             services.AddSingleton(new Dht11(14));
             services.AddHostedService<DHTService>();
             services.AddControllersWithViews();
-            //services.AddTransient<ITemperatureDbContext, TemperatureDbContext>();
             services.AddTransient<IRepository<TemperatureData>, GenericRepository<TemperatureData>>();
             services.AddTransient<ITemperatureService, TemperatureService>();
         }
