@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TempStation.Core\TempStation.Core.csproj" />
     <ProjectReference Include="..\TempStation.Data\TempStation.Data.csproj" />
     <ProjectReference Include="..\TempStation.Services.Data\TempStation.Services.Data.csproj" />
   </ItemGroup>

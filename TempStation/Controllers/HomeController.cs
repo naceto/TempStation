@@ -1,12 +1,15 @@
 ﻿using Iot.Device.DHTxx;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using TempStation.Classes.Charts;
 using TempStation.Data;
+using TempStation.ExternalDataProviders;
 using TempStation.Models;
 using TempStation.Services.Data.Contracts;
 
@@ -25,7 +28,7 @@ namespace TempStation.Controllers
         }
 
         [ResponseCache(Duration = 60 * 60, Location = ResponseCacheLocation.Any)]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             _logger.LogInformation($"{nameof(HomeController.Index)} called.");
             var tempChartData = new ChartData<double>
@@ -56,27 +59,24 @@ namespace TempStation.Controllers
                 }
             };
 
-            var tempDbData = _temperatureService
+            var tempDbData = await _temperatureService
                     .All()
-                    .OrderByDescending(t => t.Id)
                     .Where(t => t.DateTime >= DateTime.UtcNow.AddHours(-24))
+                    .OrderByDescending(t => t.Id)
                     .GroupBy(t => new { t.DateTime.Date, t.DateTime.Hour })
                     .Select(g => new
                     {
                         DateTime = new DateTime(g.Key.Date.Year, g.Key.Date.Month, g.Key.Date.Day, g.Key.Hour, 0, 0).ToLocalTime(),
                         Temperature = g.Average(gt => gt.Temperature),
                         Humidity = g.Average(gt => gt.Humidity)
-                    });
+                    }).ToListAsync();
 
             var labels = new List<string>();
-            if (tempDbData != null) 
+            foreach (var temp in tempDbData)
             {
-                foreach (var temp in tempDbData)
-                {
-                    labels.Add(temp.DateTime.ToString(TimeFormat));
-                    tempChartData.Datasets[0].Data.Add(Math.Round(temp.Temperature, 1));
-                    humiChartData.Datasets[0].Data.Add(Math.Round(temp.Humidity, 1));
-                }
+                labels.Add(temp.DateTime.ToString(TimeFormat));
+                tempChartData.Datasets[0].Data.Add(Math.Round(temp.Temperature, 1));
+                humiChartData.Datasets[0].Data.Add(Math.Round(temp.Humidity, 1));
             }
 
             tempChartData.Labels = labels;
@@ -88,12 +88,7 @@ namespace TempStation.Controllers
                 HumidityChartData = humiChartData
             };
 
-            // latest temperature
-            var latestTemperature = _temperatureService
-                    .All()
-                    .OrderByDescending(t => t.Id)
-                    .FirstOrDefault();
-
+            var latestTemperature = await _temperatureService.GetLatest();
             if (latestTemperature != null)
             {
                 chartViewData.CurrentTemperature = Math.Round(latestTemperature.Temperature, 2).ToString();

@@ -1,28 +1,26 @@
 using Iot.Device.DHTxx;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Device.Gpio;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using TempStation.Data.Models;
 using TempStation.Data;
+using TempStation.Data.Models;
+using TempStation.Services.Data.Contracts;
 
 namespace TempStation.Services
 {
-    internal class DHTService : IHostedService, IDisposable
+    internal class DHTHostedService : IHostedService, IDisposable
     {
         private readonly Dht11 _dht;
         private readonly ILogger _logger;
-        private Timer _timer;
-        private IServiceProvider _serviceProvider;
+        private readonly IServiceProvider _serviceProvider;
 
-        public DHTService(
-            ILogger<DHTService> logger,
+        private Timer _timer;
+
+        public DHTHostedService(
+            ILogger<DHTHostedService> logger,
             Dht11 dhtController,
             IServiceProvider serviceProvider)
         {
@@ -41,7 +39,7 @@ namespace TempStation.Services
             return Task.CompletedTask;
         }
 
-        private void DoWork(object state)
+        private async void DoWork(object state)
         {
             _logger.LogInformation("DHT Service is working.");
             var temperature = new TemperatureData 
@@ -54,13 +52,9 @@ namespace TempStation.Services
             if (temperature.IsLastReadSuccessful)
             {
                 _logger.LogInformation("DHT LastReadSuccessful.");
-                // save to DB
-                using (var scope = _serviceProvider.CreateScope()) 
-                {
-                    var dbContext = scope.ServiceProvider.GetService<TemperatureDbContext>();
-                    dbContext.Add<TemperatureData>(temperature);
-                    dbContext.SaveChanges();
-                }
+                using var scope = _serviceProvider.CreateScope();
+                var temperatureService = scope.ServiceProvider.GetService<ITemperatureService>();
+                var latestTemperature = await temperatureService.Add(temperature);
             }
         }
 

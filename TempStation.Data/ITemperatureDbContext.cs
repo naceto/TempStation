@@ -1,9 +1,9 @@
-﻿namespace TempStation.Data
-{
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.ChangeTracking;
-    using TempStation.Data.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using TempStation.Data.Models;
 
+namespace TempStation.Data
+{
     public interface ITemperatureDbContext
     {
         DbSet<TemperatureData> Temperatures { get; set; }
