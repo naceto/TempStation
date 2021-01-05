@@ -1,9 +1,10 @@
-﻿namespace TempStation.Data.Repositories
-{
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
+namespace TempStation.Data.Repositories
+{
     public class GenericRepository<T> : IRepository<T> where T : class
     {
         public GenericRepository(TemperatureDbContext context)
@@ -93,6 +94,11 @@
         public int SaveChanges()
         {
             return this.Context.SaveChanges();
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await this.Context.SaveChangesAsync();
         }
 
         public void Dispose()

@@ -5,11 +5,13 @@ VisualStudioVersion = 16.0.30709.132
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TempStation", "TempStation\TempStation.csproj", "{9A75018C-E140-4899-BFF4-C602F4BAF8C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TempStation.Data", "TempStation.Data\TempStation.Data.csproj", "{C8FF72F8-F42E-443D-8F0E-EC574157ABAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TempStation.Data", "TempStation.Data\TempStation.Data.csproj", "{C8FF72F8-F42E-443D-8F0E-EC574157ABAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TempStation.Data.Models", "TempStation.Data.Models\TempStation.Data.Models.csproj", "{6B3029D0-D2DA-4D5E-8831-636D7832F142}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TempStation.Data.Models", "TempStation.Data.Models\TempStation.Data.Models.csproj", "{6B3029D0-D2DA-4D5E-8831-636D7832F142}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TempStation.Services.Data", "TempStation.Services.Data\TempStation.Services.Data.csproj", "{591F55E4-A914-4B38-9C8A-CAA19D8A6B85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TempStation.Services.Data", "TempStation.Services.Data\TempStation.Services.Data.csproj", "{591F55E4-A914-4B38-9C8A-CAA19D8A6B85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TempStation.Core", "TempStation.Core\TempStation.Core.csproj", "{079E5C96-9BF8-455C-8638-2A7D67E93CC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{591F55E4-A914-4B38-9C8A-CAA19D8A6B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{591F55E4-A914-4B38-9C8A-CAA19D8A6B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{591F55E4-A914-4B38-9C8A-CAA19D8A6B85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{079E5C96-9BF8-455C-8638-2A7D67E93CC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{079E5C96-9BF8-455C-8638-2A7D67E93CC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{079E5C96-9BF8-455C-8638-2A7D67E93CC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{079E5C96-9BF8-455C-8638-2A7D67E93CC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

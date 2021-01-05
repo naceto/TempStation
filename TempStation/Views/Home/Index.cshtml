@@ -15,8 +15,3 @@
     <canvas id="humi-chart"></canvas>
     <div style="display: none" id="temp-data">@Html.Raw(JsonConvert.SerializeObject(Model))</div>
 </div>
-
-@section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <script src="~/js/temperature.js" asp-append-version="true"></script>
-}
