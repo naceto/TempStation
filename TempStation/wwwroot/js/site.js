@@ -3,7 +3,7 @@
 
 // Write your JavaScript code.
 
-var data = document.getElementById('temp-data').innerText;
+var data = $('#temp-json-data').text();
 var parsedData = JSON.parse(data);
 
 var tempCtx = document.getElementById('temp-chart').getContext('2d');
@@ -73,10 +73,30 @@ var chart = new Chart(humiCtx, {
 
 var forecastHubconnection = new signalR.HubConnectionBuilder().withUrl("/forecastHub").build();
 
-forecastHubconnection.on("ReceiveForecast", function (forecastData) {
-    console.log(forecastData);
+forecastHubconnection.on('ReceiveForecast', function (forecastData, tempSensorData) {
+    updateForecastData(forecastData);
+    updateSensorData(tempSensorData);
 });
 
 forecastHubconnection.start().catch(function (err) {
     return console.error(err.toString());
 });
+
+function updateForecastData(forecastData) {
+    if (!forecastData) {
+        return;
+    }
+
+    $('#forecast-icon').attr('src','http://openweathermap.org/img/wn/' + forecastData.icon + '@4x.png');
+    $('#forecast-temp').text(forecastData.temperature);
+}
+
+function updateSensorData(tempSensorData) {
+    if (!tempSensorData) {
+        return;
+    }
+
+    $('#temp-data').text(tempSensorData.currentTemperature);
+    $('#humi-data').text(tempSensorData.currentHumidity);
+    $('#reading-data').text(tempSensorData.takenAtTime);
+}

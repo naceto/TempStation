@@ -14,7 +14,6 @@ using TempStation.Data.Repositories;
 using TempStation.ExternalDataProviders.ForecastProviders.OpenWeatherMap;
 using TempStation.Hubs;
 using TempStation.Services;
-using TempStation.Services.Data;
 using TempStation.Services.Data.Contracts;
 
 namespace TempStation
@@ -35,8 +34,8 @@ namespace TempStation
                 options.UseSqlite(Configuration.GetConnectionString(Constants.DefaultConnectionStringConfigName),
                 b => b.MigrationsAssembly(Constants.EntityCoreMigrationAssembly)));
 
-            // services.AddSingleton(new Dht11(14));
-            // services.AddHostedService<DHTService>();
+            services.AddSingleton(new Dht11(14));
+            services.AddHostedService<DHTHostedService>();
 
             services.AddTransient<IRepository<TemperatureData>, GenericRepository<TemperatureData>>();
             services.AddTransient<ITemperatureService, Services.Data.TemperatureService>();

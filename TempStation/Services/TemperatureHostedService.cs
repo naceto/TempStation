@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TempStation.Core.ExternalDataProviders.ForecastProviders.Contracts;
 using TempStation.Hubs;
 using TempStation.Services.Data.Contracts;
+using TempStation.Hubs.Models;
 
 namespace TempStation.Services
 {
@@ -36,7 +37,7 @@ namespace TempStation.Services
         {
             _logger.LogInformation(nameof(TemperatureHostedService) + " is starting.");
             _timer = new Timer(DoWork, null, TimeSpan.Zero,
-                TimeSpan.FromSeconds(10));
+                TimeSpan.FromSeconds(60));
             return Task.CompletedTask;
         }
 
@@ -50,9 +51,16 @@ namespace TempStation.Services
             var temperatureService = scope.ServiceProvider.GetService<ITemperatureService>();
             var latestTemperature = await temperatureService.GetLatest();
 
+            var sensorTemperature = new SensorTemperature
+            {
+                CurrentTemperature = Math.Round(latestTemperature.Temperature, 2).ToString(),
+                CurrentHumidity = Math.Round(latestTemperature.Humidity, 2).ToString(),
+                TakenAtTime = latestTemperature.DateTime.ToLocalTime().ToString("HH:mm:ss")
+            };
+
             await _forecastHubContext.Clients.All.SendAsync(
                 TemperatureHub.ForecastHubEndpoint, 
-                forecastData, latestTemperature
+                forecastData, sensorTemperature
                 ).ConfigureAwait(false);
         }
 

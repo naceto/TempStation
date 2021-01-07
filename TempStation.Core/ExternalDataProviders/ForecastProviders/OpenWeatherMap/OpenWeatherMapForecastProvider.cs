@@ -14,7 +14,7 @@ namespace TempStation.ExternalDataProviders.ForecastProviders.OpenWeatherMap
     {
         private IHttpClientFactory _httpClientFactory;
         private readonly ILogger _logger;
-        private readonly string apiKey = "0ecba45f5fb8a23b22f2d7ab82d0f71b";
+        private readonly string apiKey;
         private readonly string cityId = "727012";
 
         private ForecastData lastForecastData;

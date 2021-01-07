@@ -1,6 +1,7 @@
 using System;
 using TempStation.Classes.Charts;
 using Newtonsoft.Json;
+using TempStation.Hubs.Models;
 
 namespace TempStation.Models
 {
@@ -27,5 +28,8 @@ namespace TempStation.Models
 
         [JsonIgnore]
         public string TakenAtTime { get; set; }
+
+        [JsonIgnore]
+        public SensorTemperature SensorTemperature { get; set; }
     }
 }
