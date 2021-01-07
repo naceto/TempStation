@@ -71,7 +71,10 @@ var chart = new Chart(humiCtx, {
 });
 
 
-var forecastHubconnection = new signalR.HubConnectionBuilder().withUrl("/forecastHub").build();
+var forecastHubconnection = new signalR.HubConnectionBuilder()
+    .withUrl("/forecastHub")
+    .withAutomaticReconnect()
+    .build();
 
 forecastHubconnection.on('ReceiveForecast', function (forecastData, tempSensorData) {
     updateForecastData(forecastData);
