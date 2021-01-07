@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using TempStation.Core.ExternalDataProviders.ForecastProviders.Contracts;
 using TempStation.Hubs;
 using TempStation.Services.Data.Contracts;
-using TempStation.Hubs.Models;
+using TempStation.Models;
 
 namespace TempStation.Services
 {
@@ -51,16 +51,16 @@ namespace TempStation.Services
             var temperatureService = scope.ServiceProvider.GetService<ITemperatureService>();
             var latestTemperature = await temperatureService.GetLatest();
 
-            var sensorTemperature = new SensorTemperature
-            {
-                CurrentTemperature = Math.Round(latestTemperature.Temperature, 2).ToString(),
-                CurrentHumidity = Math.Round(latestTemperature.Humidity, 2).ToString(),
-                TakenAtTime = latestTemperature.DateTime.ToLocalTime().ToString("HH:mm:ss")
-            };
+            var sensorTemperatureModel = new SensorTemperatureModel(
+                latestTemperature.Temperature,
+                latestTemperature.Humidity,
+                latestTemperature.DateTime);
+
+            var forecastTemperatureModel = new ForecastTemperatureModel();
 
             await _forecastHubContext.Clients.All.SendAsync(
-                TemperatureHub.ForecastHubEndpoint, 
-                forecastData, sensorTemperature
+                TemperatureHub.ForecastHubEndpoint,
+                forecastTemperatureModel, sensorTemperatureModel
                 ).ConfigureAwait(false);
         }
 

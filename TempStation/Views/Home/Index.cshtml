@@ -7,14 +7,16 @@
 
 <div class="text-center">
     <div id="current-temperature">
-        <h2 id="reading-timestamp">Latest reading: <span id="reading-data">@(Model.TakenAtTime)</span></h2>
-        <div id="temperature"><span id="temp-data">@(Model.CurrentTemperature)</span>&#8451;</div><div id="humidity"><span id="humi-data">@(Model.CurrentHumidity)</span>%</div>
+        <h2 id="reading-timestamp">Latest reading: <span id="reading-data">@(Model.SensorTemperature.TakenAtTime)</span></h2>
+        <div id="temperature"><span id="temp-data">@(Model.SensorTemperature.CurrentTemperature)</span>&#8451;</div><div id="humidity"><span id="humi-data">@(Model.SensorTemperature.CurrentHumidity)</span>%</div>
     </div>
     <hr>
     <canvas id="temp-chart"></canvas>
     <canvas id="humi-chart"></canvas>
     <div id="forecast">
-        <img id="forecast-icon" src="#" width="200" height="200" alt="Forecast weather icon"><h1><span id="forecast-temp">N/A</span>&#8451;<h1>
+        <img id="forecast-icon" src="http://openweathermap.org/img/wn/@(Model.ForecastTemperature.Icon)@@4x.png" 
+             width="200" height="200" alt="Forecast weather icon">
+        <h1><span id="forecast-temp">@Model.ForecastTemperature.Temperature</span>&#8451;</h1>
     </div>
     <div style="display: none" id="temp-json-data">@Html.Raw(JsonConvert.SerializeObject(Model))</div>
 </div>

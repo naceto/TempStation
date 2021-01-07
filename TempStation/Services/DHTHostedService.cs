@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using TempStation.Data;
 using TempStation.Data.Models;
 using TempStation.Services.Data.Contracts;
 

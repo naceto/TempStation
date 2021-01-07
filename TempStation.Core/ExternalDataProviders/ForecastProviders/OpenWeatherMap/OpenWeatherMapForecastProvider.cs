@@ -12,14 +12,13 @@ namespace TempStation.ExternalDataProviders.ForecastProviders.OpenWeatherMap
 {
     public class OpenWeatherMapForecastProvider : IForecastProvider
     {
-        private IHttpClientFactory _httpClientFactory;
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger _logger;
-        private readonly string apiKey;
-        private readonly string cityId = "727012";
+        private readonly string _apiKey;
+        private readonly string _cityId = "727012";
 
         private ForecastData lastForecastData;
         private DateTime dataReceivedAt;
-
 
         public OpenWeatherMapForecastProvider(ILogger<OpenWeatherMapForecastProvider> logger, IHttpClientFactory httpClientFactory)
         {
@@ -35,7 +34,7 @@ namespace TempStation.ExternalDataProviders.ForecastProviders.OpenWeatherMap
             }
 
             var client = _httpClientFactory.CreateClient(Constants.OpenWeatherMapHttpClientName);
-            var response = await client.GetAsync($"weather?id={cityId}&appid={apiKey}&units=metric");
+            var response = await client.GetAsync($"weather?id={_cityId}&appid={_apiKey}&units=metric");
             if (response.IsSuccessStatusCode)
             {
                 var content = response.Content;

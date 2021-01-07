@@ -1,5 +1,4 @@
-﻿using Iot.Device.DHTxx;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,8 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TempStation.Classes.Charts;
-using TempStation.Data;
-using TempStation.ExternalDataProviders;
+using TempStation.Core.ExternalDataProviders.ForecastProviders.Contracts;
 using TempStation.Models;
 using TempStation.Services.Data.Contracts;
 
@@ -20,11 +18,16 @@ namespace TempStation.Controllers
         private const string TimeFormat = "H:mm";
         private readonly ILogger<HomeController> _logger;
         private readonly ITemperatureService _temperatureService;
+        private readonly IForecastProvider _forecastProvider;
 
-        public HomeController(ILogger<HomeController> logger, ITemperatureService temperatureService)
+        public HomeController(
+            ILogger<HomeController> logger,
+            ITemperatureService temperatureService,
+            IForecastProvider forecastProvider)
         {
             _logger = logger;
             _temperatureService = temperatureService;
+            _forecastProvider = forecastProvider;
         }
 
         [ResponseCache(Duration = 60 * 60, Location = ResponseCacheLocation.Any)]
@@ -91,10 +94,18 @@ namespace TempStation.Controllers
             var latestTemperature = await _temperatureService.GetLatest();
             if (latestTemperature != null)
             {
-                chartViewData.CurrentTemperature = Math.Round(latestTemperature.Temperature, 2).ToString();
-                chartViewData.CurrentHumidity = Math.Round(latestTemperature.Humidity, 2).ToString();
-                chartViewData.TakenAtTime = latestTemperature.DateTime.ToLocalTime().ToString(TimeFormat + ":ss");
+                chartViewData.SensorTemperature = new SensorTemperatureModel(
+                    latestTemperature.Temperature,
+                    latestTemperature.Humidity,
+                    latestTemperature.DateTime);
             }
+
+            var currentForecastData = await _forecastProvider.GetCurrentForecastAsync();
+            chartViewData.ForecastTemperature = new ForecastTemperatureModel
+            {
+                Temperature = currentForecastData.Temperature,
+                Icon = currentForecastData.Icon
+            };
 
             return View(chartViewData);
         }
