@@ -1,6 +1,5 @@
-using System;
+using Newtonsoft.Json;
 using TempStation.Classes.Charts;
-using Newtonsoft.Json;;
 
 namespace TempStation.Models
 {
