@@ -70,34 +70,41 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
-#temperature, #humidity {
-  display: inline-block;
-  width: 50%;
-  box-sizing: border-box;
-  height: 100px;
-  margin: auto;
-  padding: 11px;
-  font-size: 50px;
+.white-text-custom {
   color: white;
 }
 
-#temperature {
-  background-color: rgb(255, 99, 132);
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+/* My CSS */
+.weather-data {
+  margin: auto;
+  padding: 11px;
+  font-size: 50px;
 }
 
-#humidity {
-  background-color: rgb(54, 162, 235);
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+.temp-color {
+  background-color: #E56B6F;
 }
 
-#current-temperature {
-  width: 100%;
-  box-sizing: border-box;
+.humi-color {
+  background-color: #355070;
 }
 
-#forecast-icon, #forecast-temp {
-  display: inline-block;
+.time-color {
+  background-color: #333538;
+}
+
+.high-forecast-bg {
+  background-color: #E56B6F;
+}
+
+.low-forecast-bg {
+  background-color: #355070;
+}
+
+.icon-forecast-bg {
+  background-color: #EAAC8B;
+}
+
+.temp-forecast-bg {
+  background-color: #B56576;
 }

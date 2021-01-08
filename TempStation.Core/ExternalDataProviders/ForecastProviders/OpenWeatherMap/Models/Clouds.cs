@@ -1,10 +1,10 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace TempStation.Core.ExternalDataProviders.ForecastProviders.OpenWeatherMap.Models
 {
     public class Clouds
     {
-        [JsonPropertyName("all")]
+        [JsonProperty("all")]
         public int All { get; set; }
     }
 }

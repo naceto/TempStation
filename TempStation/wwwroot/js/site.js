@@ -92,6 +92,9 @@ function updateForecastData(forecastData) {
 
     $('#forecast-icon').attr('src','http://openweathermap.org/img/wn/' + forecastData.icon + '@4x.png');
     $('#forecast-temp').text(forecastData.temperature);
+    $('#forecast-high').text(forecastData.maxTemperature);
+    $('#forecast-low').text(forecastData.minTemperature);
+    $('#forecast-datetime').text(forecastData.takenAtTime);
 }
 
 function updateSensorData(tempSensorData) {
@@ -101,5 +104,5 @@ function updateSensorData(tempSensorData) {
 
     $('#temp-data').text(tempSensorData.currentTemperature);
     $('#humi-data').text(tempSensorData.currentHumidity);
-    $('#reading-data').text(tempSensorData.takenAtTime);
+    $('#tempreature-datetime').text(tempSensorData.takenAtTime);
 }

@@ -44,19 +44,24 @@ namespace TempStation.Services
         private async void DoWork(object state)
         {
             _logger.LogInformation(nameof(TemperatureHostedService) + " is working.");
-            
-            var forecastData = await _forecastProvider.GetCurrentForecastAsync();
 
             using var scope = _serviceProvider.CreateScope();
             var temperatureService = scope.ServiceProvider.GetService<ITemperatureService>();
             var latestTemperature = await temperatureService.GetLatest();
-
             var sensorTemperatureModel = new SensorTemperatureModel(
                 latestTemperature.Temperature,
                 latestTemperature.Humidity,
                 latestTemperature.DateTime);
-
-            var forecastTemperatureModel = new ForecastTemperatureModel();
+    
+            var currentForecastData = await _forecastProvider.GetCurrentForecastAsync();
+            var forecastTemperatureModel = new ForecastTemperatureModel
+            {
+                Temperature = currentForecastData.Temperature,
+                Icon = currentForecastData.Icon,
+                MinTemperature = currentForecastData.MinTemperature,
+                MaxTemperature = currentForecastData.MaxTemperature,
+                TakenAtTime = currentForecastData.TakenAtTime.ToString("HH:mm:ss")
+            };
 
             await _forecastHubContext.Clients.All.SendAsync(
                 TemperatureHub.ForecastHubEndpoint,

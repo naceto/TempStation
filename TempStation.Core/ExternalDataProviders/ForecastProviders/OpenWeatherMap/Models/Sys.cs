@@ -1,25 +1,25 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace TempStation.Core.ExternalDataProviders.ForecastProviders.OpenWeatherMap.Models
 {
     public class Sys
     {
-        [JsonPropertyName("type")]
+        [JsonProperty("type")]
         public int Type { get; set; }
 
-        [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public int Id { get; set; }
 
-        [JsonPropertyName("message")]
+        [JsonProperty("message")]
         public double Message { get; set; }
 
-        [JsonPropertyName("country")]
+        [JsonProperty("country")]
         public string Country { get; set; }
 
-        [JsonPropertyName("sunrise")]
+        [JsonProperty("sunrise")]
         public int Sunrise { get; set; }
 
-        [JsonPropertyName("sunset")]
+        [JsonProperty("sunset")]
         public int Sunset { get; set; }
     }
 }

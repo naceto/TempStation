@@ -1,13 +1,13 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace TempStation.Core.ExternalDataProviders.ForecastProviders.OpenWeatherMap.Models
 {
     public class Wind
     {
-        [JsonPropertyName("speed")]
+        [JsonProperty("speed")]
         public double Speed { get; set; }
 
-        [JsonPropertyName("deg")]
+        [JsonProperty("deg")]
         public int Deg { get; set; }
     }
 }

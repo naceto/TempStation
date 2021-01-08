@@ -39,6 +39,7 @@ namespace TempStation.ExternalDataProviders.ForecastProviders.OpenWeatherMap
             {
                 var content = response.Content;
                 string data = await content.ReadAsStringAsync();
+                _logger.LogDebug(data);
                 var weatherData = JsonConvert.DeserializeObject<WeatherData>(data);
                 lastForecastData = weatherData.Convert();
                 dataReceivedAt = DateTime.Now;

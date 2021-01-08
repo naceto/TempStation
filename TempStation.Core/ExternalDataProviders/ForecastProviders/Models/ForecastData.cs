@@ -1,4 +1,6 @@
-﻿namespace TempStation.Core.ExternalDataProviders.ForecastProviders.Models
+﻿using System;
+
+namespace TempStation.Core.ExternalDataProviders.ForecastProviders.Models
 {
     public class ForecastData
     {
@@ -19,5 +21,7 @@
         public string City { get; set; }
 
         public string Icon { get; set; }
+
+        public DateTime TakenAtTime { get; set; }
     }
 }

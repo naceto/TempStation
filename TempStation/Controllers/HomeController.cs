@@ -104,7 +104,10 @@ namespace TempStation.Controllers
             chartViewData.ForecastTemperature = new ForecastTemperatureModel
             {
                 Temperature = currentForecastData.Temperature,
-                Icon = currentForecastData.Icon
+                Icon = currentForecastData.Icon,
+                MinTemperature = currentForecastData.MinTemperature,
+                MaxTemperature = currentForecastData.MaxTemperature,
+                TakenAtTime = currentForecastData.TakenAtTime.ToString("HH:mm:ss")
             };
 
             return View(chartViewData);
