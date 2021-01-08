@@ -77,7 +77,10 @@ body {
 /* My CSS */
 .weather-data {
   margin: auto;
-  padding: 11px;
+  padding: 50px;
+}
+
+.temp-text-size {
   font-size: 50px;
 }
 
