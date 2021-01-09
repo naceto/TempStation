@@ -31,17 +31,14 @@ namespace TempStation.Services
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("DHT Service is starting.");
-
-            _timer = new Timer(DoWork, null, TimeSpan.Zero,
-                TimeSpan.FromSeconds(10));
-
+            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
             return Task.CompletedTask;
         }
 
         private async void DoWork(object state)
         {
             _logger.LogInformation("DHT Service is working.");
-            var temperature = new TemperatureData 
+            var temperature = new SensorTemperatureData
             {
                 Temperature = _dht.Temperature.Value,
                 Humidity = _dht.Humidity.Value,
@@ -60,9 +57,7 @@ namespace TempStation.Services
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("DHT Service is stopping.");
-
             _timer?.Change(Timeout.Infinite, 0);
-
             return Task.CompletedTask;
         }
 

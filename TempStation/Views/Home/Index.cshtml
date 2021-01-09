@@ -7,9 +7,9 @@
 
 <div class="text-center">
     <div class="row align-items-center rounded overflow-hidden">
-        <div class="col-6 temp-color weather-data white-text-custom temp-text-size"><span id="temp-data">@(Model.SensorTemperature.CurrentTemperature)</span>&#8451;</div>
-        <div class="col-6 humi-color weather-data white-text-custom temp-text-size"><span id="humi-data">@(Model.SensorTemperature.CurrentHumidity)</span>%</div>
-        <h3 id="tempreature-datetime" class="col-12 time-color white-text-custom mb-0 p-1">@(Model.SensorTemperature.TakenAtTime)</h2>
+        <div class="col-6 temp-color weather-data white-text-custom temp-text-size"><span id="temp-data">@(Model.SensorTemperature?.CurrentTemperature)</span>&#8451;</div>
+        <div class="col-6 humi-color weather-data white-text-custom temp-text-size"><span id="humi-data">@(Model.SensorTemperature?.CurrentHumidity)</span>%</div>
+        <h3 id="tempreature-datetime" class="col-12 time-color white-text-custom mb-0 p-1">@(Model.SensorTemperature?.TakenAtTime)</h3>
     </div>
      <hr>
     <div class="row rounded overflow-hidden">
@@ -17,18 +17,19 @@
             <img id="forecast-icon" src="http://openweathermap.org/img/wn/@(Model.ForecastTemperature.Icon)@@4x.png" width="200" height="200" alt="Forecast weather icon">
         </div>
         <div class="col-3 temp-forecast-bg d-flex align-items-center justify-content-center white-text-custom temp-text-size">
-            <span id="forecast-temp">@Model.ForecastTemperature.Temperature</span>&#8451;
+            <span id="forecast-temp">@Model.ForecastTemperature?.Temperature</span>&#8451;
         </div>
         <div class="col-3 white-text-custom">
             <div class="row h-100">
-                <div class="col-12 d-flex align-items-center justify-content-center high-forecast-bg h3 mb-0"><span id="forecast-high">@(Model.ForecastTemperature.MaxTemperature)</span>&#8451;</div>
-                <div class="col-12 d-flex align-items-center justify-content-center low-forecast-bg h3 mb-0"><span id="forecast-low">@(Model.ForecastTemperature.MinTemperature)</span>&#8451;</div>
+                <div class="col-12 d-flex align-items-center justify-content-center high-forecast-bg h3 mb-0"><span id="forecast-high">@(Model.ForecastTemperature?.MaxTemperature)</span>&#8451;</div>
+                <div class="col-12 d-flex align-items-center justify-content-center low-forecast-bg h3 mb-0"><span id="forecast-low">@(Model.ForecastTemperature?.MinTemperature)</span>&#8451;</div>
             </div>
         </div>
-        <h3 id="forecast-datetime" class="col-12 time-color white-text-custom mb-0 p-1">@(Model.ForecastTemperature.TakenAtTime)</h2>
+        <h3 id="forecast-datetime" class="col-12 time-color white-text-custom mb-0 p-1">@(Model.ForecastTemperature?.TakenAtTime)</h3>
     </div>
     <hr>
-    <canvas id="temp-chart"></canvas>
-    <canvas id="humi-chart"></canvas>
-    <div id="temp-json-data" class="d-none">@Html.Raw(JsonConvert.SerializeObject(Model))</div>
+    @section Scripts {
+        <script src="~/js/index.js" asp-append-version="true"></script>
+    }  
+>>>>>>> b7757b61d948844191978c7d3aabe623b76a06b9
 </div>

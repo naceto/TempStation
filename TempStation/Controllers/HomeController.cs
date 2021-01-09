@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using TempStation.Classes.Charts;
 using TempStation.Core.ExternalDataProviders.ForecastProviders.Contracts;
 using TempStation.Models;
+using TempStation.Models.ChartsJs;
 using TempStation.Services.Data.Contracts;
 
 namespace TempStation.Controllers
@@ -34,6 +34,35 @@ namespace TempStation.Controllers
         public async Task<IActionResult> Index()
         {
             _logger.LogInformation($"{nameof(HomeController.Index)} called.");
+
+            var indexViewModel = new IndexViewModel();
+
+            // latest sensor data
+            var latestTemperature = await _temperatureService.GetLatest();
+            if (latestTemperature != null)
+            {
+                indexViewModel.SensorTemperature = new SensorTemperatureModel(
+                    latestTemperature.Temperature,
+                    latestTemperature.Humidity,
+                    latestTemperature.DateTime);
+            }
+
+            // forecast data
+            var currentForecastData = await _forecastProvider.GetCurrentForecastAsync();
+            indexViewModel.ForecastTemperature = new ForecastTemperatureModel
+            {
+                Temperature = currentForecastData.Temperature,
+                Icon = currentForecastData.Icon,
+                MinTemperature = currentForecastData.MinTemperature,
+                MaxTemperature = currentForecastData.MaxTemperature,
+                TakenAtTime = currentForecastData.TakenAtTime.ToString("HH:mm:ss")
+            };
+
+            return View(indexViewModel);
+        }
+
+        public async Task<IActionResult> Charts() 
+        {
             var tempChartData = new ChartData<double>
             {
                 Datasets = new List<ChartDataset<double>>
@@ -62,17 +91,10 @@ namespace TempStation.Controllers
                 }
             };
 
+            // sensor chart data
             var tempDbData = await _temperatureService
-                    .All()
-                    .Where(t => t.DateTime >= DateTime.UtcNow.AddHours(-24))
-                    .OrderByDescending(t => t.Id)
-                    .GroupBy(t => new { t.DateTime.Date, t.DateTime.Hour })
-                    .Select(g => new
-                    {
-                        DateTime = new DateTime(g.Key.Date.Year, g.Key.Date.Month, g.Key.Date.Day, g.Key.Hour, 0, 0).ToLocalTime(),
-                        Temperature = g.Average(gt => gt.Temperature),
-                        Humidity = g.Average(gt => gt.Humidity)
-                    }).ToListAsync();
+                    .GetByTimeIntervalGroupedByHour(DateTime.UtcNow.AddHours(-24))
+                    .ToListAsync();
 
             var labels = new List<string>();
             foreach (var temp in tempDbData)
@@ -85,29 +107,10 @@ namespace TempStation.Controllers
             tempChartData.Labels = labels;
             humiChartData.Labels = labels;
 
-            var chartViewData = new IndexViewModel
+            var chartViewData = new ChartsViewModel
             {
                 TemperatureChartData = tempChartData,
                 HumidityChartData = humiChartData
-            };
-
-            var latestTemperature = await _temperatureService.GetLatest();
-            if (latestTemperature != null)
-            {
-                chartViewData.SensorTemperature = new SensorTemperatureModel(
-                    latestTemperature.Temperature,
-                    latestTemperature.Humidity,
-                    latestTemperature.DateTime);
-            }
-
-            var currentForecastData = await _forecastProvider.GetCurrentForecastAsync();
-            chartViewData.ForecastTemperature = new ForecastTemperatureModel
-            {
-                Temperature = currentForecastData.Temperature,
-                Icon = currentForecastData.Icon,
-                MinTemperature = currentForecastData.MinTemperature,
-                MaxTemperature = currentForecastData.MaxTemperature,
-                TakenAtTime = currentForecastData.TakenAtTime.ToString("HH:mm:ss")
             };
 
             return View(chartViewData);

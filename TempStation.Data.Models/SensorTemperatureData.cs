@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TempStation.Data.Models
 {
-    public class TemperatureData
+    public class SensorTemperatureData
     {
-        public TemperatureData()
+        public SensorTemperatureData()
         {
             DateTime = DateTime.UtcNow;
         }
