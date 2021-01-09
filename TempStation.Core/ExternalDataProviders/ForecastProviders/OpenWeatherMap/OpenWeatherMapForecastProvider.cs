@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -12,18 +13,22 @@ namespace TempStation.ExternalDataProviders.ForecastProviders.OpenWeatherMap
 {
     public class OpenWeatherMapForecastProvider : IForecastProvider
     {
-        private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger _logger;
-        private readonly string _apiKey;
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IConfiguration _configuration;
         private readonly string _cityId = "727012";
 
         private ForecastData lastForecastData;
         private DateTime dataReceivedAt;
 
-        public OpenWeatherMapForecastProvider(ILogger<OpenWeatherMapForecastProvider> logger, IHttpClientFactory httpClientFactory)
+        public OpenWeatherMapForecastProvider(
+            ILogger<OpenWeatherMapForecastProvider> logger,
+            IHttpClientFactory httpClientFactory,
+            IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
             _logger = logger;
+            _configuration = configuration;
         }
 
         public async Task<ForecastData> GetCurrentForecastAsync()
@@ -34,7 +39,8 @@ namespace TempStation.ExternalDataProviders.ForecastProviders.OpenWeatherMap
             }
 
             var client = _httpClientFactory.CreateClient(Constants.OpenWeatherMapHttpClientName);
-            var response = await client.GetAsync($"weather?id={_cityId}&appid={_apiKey}&units=metric");
+            string apiKey = _configuration[Constants.OpenWeatherMapApiKeyConfigName];
+            var response = await client.GetAsync($"weather?id={_cityId}&appid={apiKey}&units=metric");
             if (response.IsSuccessStatusCode)
             {
                 var content = response.Content;

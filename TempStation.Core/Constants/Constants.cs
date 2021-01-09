@@ -4,6 +4,7 @@
     {
         public static readonly string OpenWeatherMapHttpClientName = nameof(OpenWeatherMapHttpClientName);
         public static readonly string OpenWeatherMapBaseUrlConfigName = "OpenWeatherMapBaseUrl";
+        public static readonly string OpenWeatherMapApiKeyConfigName = "OpenWeatherMap:ApiKey";
 
         public static readonly string EntityCoreMigrationAssembly = "TempStation.Data";
         public static readonly string DefaultConnectionStringConfigName = "DefaultConnection";
