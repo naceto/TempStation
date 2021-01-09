@@ -42,7 +42,7 @@ namespace TempStation
             services.AddTransient<ITemperatureService, Services.Data.TemperatureService>();
             services.AddHttpClient(Constants.OpenWeatherMapHttpClientName, c =>
             {
-                c.BaseAddress = new Uri(Configuration[Constants.OpenWeatherMapBaseUrlConfigName]);
+                c.BaseAddress = new Uri(Configuration[Constants.OpenWeatherMapConfigBaseUrl]);
             });
 
             services.AddSingleton<IForecastProvider, OpenWeatherMapForecastProvider>();

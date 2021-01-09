@@ -19,7 +19,10 @@ namespace TempStation
                 })
                 .ConfigureAppConfiguration((hostContext, builder) =>
                 {
-                    builder.AddUserSecrets<Program>();
+                    if (hostContext.HostingEnvironment.IsDevelopment())
+                    {
+                        builder.AddUserSecrets<Program>();
+                    }
                 });
     }
 }

@@ -15,8 +15,8 @@ namespace TempStation.ExternalDataProviders.ForecastProviders.OpenWeatherMap
     {
         private readonly ILogger _logger;
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IConfiguration _configuration;
-        private readonly string _cityId = "727012";
+        private readonly string _cityId;
+        private readonly string _apiKey;
 
         private ForecastData lastForecastData;
         private DateTime dataReceivedAt;
@@ -28,7 +28,13 @@ namespace TempStation.ExternalDataProviders.ForecastProviders.OpenWeatherMap
         {
             _httpClientFactory = httpClientFactory;
             _logger = logger;
-            _configuration = configuration;
+            _apiKey = configuration[Constants.OpenWeatherMapConfigApiKey];
+            _cityId = configuration[Constants.OpenWeatherMapConfigCityId];
+
+            if (_apiKey == null || _cityId == null)
+            {
+                throw new ArgumentException("OpenWeatherMap: apikey and cityid are mandatory.");
+            }
         }
 
         public async Task<ForecastData> GetCurrentForecastAsync()
@@ -39,8 +45,7 @@ namespace TempStation.ExternalDataProviders.ForecastProviders.OpenWeatherMap
             }
 
             var client = _httpClientFactory.CreateClient(Constants.OpenWeatherMapHttpClientName);
-            string apiKey = _configuration[Constants.OpenWeatherMapApiKeyConfigName];
-            var response = await client.GetAsync($"weather?id={_cityId}&appid={apiKey}&units=metric");
+            var response = await client.GetAsync($"weather?id={_cityId}&appid={_apiKey}&units=metric");
             if (response.IsSuccessStatusCode)
             {
                 var content = response.Content;
