@@ -38,16 +38,15 @@ namespace TempStation
             services.AddSingleton(new Dht11(14));
             services.AddHostedService<DHTHostedService>();
 
-            services.AddTransient<IRepository<TemperatureData>, GenericRepository<TemperatureData>>();
+            services.AddTransient<IRepository<SensorTemperatureData>, GenericRepository<SensorTemperatureData>>();
             services.AddTransient<ITemperatureService, Services.Data.TemperatureService>();
-
             services.AddHttpClient(Constants.OpenWeatherMapHttpClientName, c =>
             {
-                c.BaseAddress = new Uri(Configuration[Constants.OpenWeatherMapBaseUrlConfigName]);
+                c.BaseAddress = new Uri(Configuration[Constants.OpenWeatherMapConfigBaseUrl]);
             });
 
             services.AddSingleton<IForecastProvider, OpenWeatherMapForecastProvider>();
-            services.AddHostedService<Services.TemperatureHostedService>();
+            services.AddHostedService<TemperatureHostedService>();
 
             services.AddSignalR();
             services.AddControllersWithViews();
@@ -69,7 +68,6 @@ namespace TempStation
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -78,9 +76,7 @@ namespace TempStation
             });
 
             app.UseAuthentication();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

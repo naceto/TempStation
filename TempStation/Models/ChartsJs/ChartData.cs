@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace TempStation.Classes.Charts
+namespace TempStation.Models.ChartsJs
 {
     public class ChartData<T>
     {

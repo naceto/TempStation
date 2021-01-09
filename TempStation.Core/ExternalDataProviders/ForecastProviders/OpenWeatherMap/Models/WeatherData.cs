@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using TempStation.Core.ExternalDataProviders.ForecastProviders.Models;
@@ -59,7 +60,8 @@ namespace TempStation.Core.ExternalDataProviders.ForecastProviders.OpenWeatherMa
                 Humidity = this.Main.Humidity,
                 WindSpeed = this.Wind.Speed,
                 City = this.Name,
-                Icon = this.Weather.FirstOrDefault()?.Icon
+                Icon = this.Weather.FirstOrDefault()?.Icon,
+                TakenAtTime = DateTime.Now
             };
         }
     }

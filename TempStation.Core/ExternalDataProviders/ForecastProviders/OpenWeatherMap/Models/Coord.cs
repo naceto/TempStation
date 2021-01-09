@@ -1,13 +1,13 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace TempStation.Core.ExternalDataProviders.ForecastProviders.OpenWeatherMap.Models
 {
     public class Coord
     {
-        [JsonPropertyName("lon")]
+        [JsonProperty("lon")]
         public double Lon { get; set; }
 
-        [JsonPropertyName("lat")]
+        [JsonProperty("lat")]
         public double Lat { get; set; }
     }
 }

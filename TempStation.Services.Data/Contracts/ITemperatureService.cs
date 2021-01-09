@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using TempStation.Data.Models;
 
@@ -6,10 +7,12 @@ namespace TempStation.Services.Data.Contracts
 {
     public interface ITemperatureService
     {
-        IQueryable<TemperatureData> All();
+        IQueryable<SensorTemperatureData> All();
 
-        Task<TemperatureData> GetLatest();
+        IQueryable<SensorTemperatureData> GetByTimeIntervalGroupedByHour(DateTime from, DateTime? To = null);
 
-        Task<int> Add(TemperatureData temperature);
+        Task<SensorTemperatureData> GetLatest();
+
+        Task<int> Add(SensorTemperatureData temperature);
     }
 }

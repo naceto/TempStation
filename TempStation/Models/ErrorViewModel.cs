@@ -1,5 +1,3 @@
-using System;
-
 namespace TempStation.Models
 {
     public class ErrorViewModel

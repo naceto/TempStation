@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -12,18 +13,28 @@ namespace TempStation.ExternalDataProviders.ForecastProviders.OpenWeatherMap
 {
     public class OpenWeatherMapForecastProvider : IForecastProvider
     {
-        private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger _logger;
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly string _cityId;
         private readonly string _apiKey;
-        private readonly string _cityId = "727012";
 
         private ForecastData lastForecastData;
         private DateTime dataReceivedAt;
 
-        public OpenWeatherMapForecastProvider(ILogger<OpenWeatherMapForecastProvider> logger, IHttpClientFactory httpClientFactory)
+        public OpenWeatherMapForecastProvider(
+            ILogger<OpenWeatherMapForecastProvider> logger,
+            IHttpClientFactory httpClientFactory,
+            IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
             _logger = logger;
+            _apiKey = configuration[Constants.OpenWeatherMapConfigApiKey];
+            _cityId = configuration[Constants.OpenWeatherMapConfigCityId];
+
+            if (_apiKey == null || _cityId == null)
+            {
+                throw new ArgumentException("OpenWeatherMap: apikey and cityid are mandatory.");
+            }
         }
 
         public async Task<ForecastData> GetCurrentForecastAsync()
@@ -39,6 +50,7 @@ namespace TempStation.ExternalDataProviders.ForecastProviders.OpenWeatherMap
             {
                 var content = response.Content;
                 string data = await content.ReadAsStringAsync();
+                _logger.LogDebug(data);
                 var weatherData = JsonConvert.DeserializeObject<WeatherData>(data);
                 lastForecastData = weatherData.Convert();
                 dataReceivedAt = DateTime.Now;

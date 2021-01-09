@@ -1,47 +1,47 @@
 ﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace TempStation.Core.ExternalDataProviders.ForecastProviders.OpenWeatherMap.Models
 {
     public class Root
     {
-        [JsonPropertyName("coord")]
+        [JsonProperty("coord")]
         public Coord Coord { get; set; }
 
-        [JsonPropertyName("weather")]
+        [JsonProperty("weather")]
         public List<Weather> Weather { get; set; }
 
-        [JsonPropertyName("base")]
+        [JsonProperty("base")]
         public string Base { get; set; }
 
-        [JsonPropertyName("main")]
+        [JsonProperty("main")]
         public Main Main { get; set; }
 
-        [JsonPropertyName("visibility")]
+        [JsonProperty("visibility")]
         public int Visibility { get; set; }
 
-        [JsonPropertyName("wind")]
+        [JsonProperty("wind")]
         public Wind Wind { get; set; }
 
-        [JsonPropertyName("clouds")]
+        [JsonProperty("clouds")]
         public Clouds Clouds { get; set; }
 
-        [JsonPropertyName("dt")]
+        [JsonProperty("dt")]
         public int Dt { get; set; }
 
-        [JsonPropertyName("sys")]
+        [JsonProperty("sys")]
         public Sys Sys { get; set; }
 
-        [JsonPropertyName("timezone")]
+        [JsonProperty("timezone")]
         public int Timezone { get; set; }
 
-        [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public int Id { get; set; }
 
-        [JsonPropertyName("name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonPropertyName("cod")]
+        [JsonProperty("cod")]
         public int Cod { get; set; }
     }
 }
