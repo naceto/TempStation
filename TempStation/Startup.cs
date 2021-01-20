@@ -33,7 +33,7 @@ namespace TempStation
         {
             services.AddDbContext<TemperatureDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString(Constants.DefaultConnectionStringConfigName),
-                b => b.MigrationsAssembly(Constants.EntityCoreMigrationAssembly)));
+                    b => b.MigrationsAssembly(Constants.EntityCoreMigrationAssembly)));
 
             services.AddSingleton(new Dht11(14));
             services.AddHostedService<DHTHostedService>();
@@ -50,6 +50,7 @@ namespace TempStation
 
             services.AddSignalR();
             services.AddControllersWithViews();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,6 +84,7 @@ namespace TempStation
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+                endpoints.MapRazorPages();
                 endpoints.MapHub<TemperatureHub>("/forecastHub");
             });
         }

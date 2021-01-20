@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using TempStation.Areas.Identity.Data;
+using TempStation.Data.Models;
 
 namespace TempStation.Areas.Identity.Pages.Account
 {

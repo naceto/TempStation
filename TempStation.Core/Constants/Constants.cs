@@ -9,5 +9,6 @@
 
         public static readonly string EntityCoreMigrationAssembly = "TempStation.Data";
         public static readonly string DefaultConnectionStringConfigName = "DefaultConnection";
+        public static readonly string TempStationIdentityDbContextConnectionConfigName = "DefaultConnection";
     }
 }

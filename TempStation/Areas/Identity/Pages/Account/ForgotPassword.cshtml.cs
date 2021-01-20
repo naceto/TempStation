@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using TempStation.Areas.Identity.Data;
+using TempStation.Data.Models;
 
 namespace TempStation.Areas.Identity.Pages.Account
 {
