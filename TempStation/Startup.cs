@@ -38,7 +38,7 @@ namespace TempStation
             services.AddSingleton(new Dht11(14));
             services.AddHostedService<DHTHostedService>();
 
-            services.AddTransient<IRepository<SensorTemperatureData>, GenericRepository<SensorTemperatureData>>();
+            services.AddTransient<IRepository<SensorTemperature>, GenericRepository<SensorTemperature>>();
             services.AddTransient<ITemperatureService, Services.Data.TemperatureService>();
             services.AddHttpClient(Constants.OpenWeatherMapHttpClientName, c =>
             {

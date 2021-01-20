@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TempStation.Areas.Identity.Data;
+using TempStation.Data.Models;
 
 namespace TempStation.Areas.Identity.Data
 {

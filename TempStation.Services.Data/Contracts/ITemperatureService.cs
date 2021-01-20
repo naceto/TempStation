@@ -7,12 +7,12 @@ namespace TempStation.Services.Data.Contracts
 {
     public interface ITemperatureService
     {
-        IQueryable<SensorTemperatureData> All();
+        IQueryable<SensorTemperature> All();
 
-        IQueryable<SensorTemperatureData> GetByTimeIntervalGroupedByHour(DateTime from, DateTime? To = null);
+        IQueryable<SensorTemperature> GetByTimeIntervalGroupedByHour(DateTime from, DateTime? To = null);
 
-        Task<SensorTemperatureData> GetLatest();
+        Task<SensorTemperature> GetLatest();
 
-        Task<int> Add(SensorTemperatureData temperature);
+        Task<int> Add(SensorTemperature temperature);
     }
 }

@@ -38,7 +38,7 @@ namespace TempStation.Services
         private async void DoWork(object state)
         {
             _logger.LogInformation("DHT Service is working.");
-            var temperature = new SensorTemperatureData
+            var temperature = new SensorTemperature
             {
                 Temperature = _dht.Temperature.Value,
                 Humidity = _dht.Humidity.Value,

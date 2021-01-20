@@ -5,7 +5,7 @@ namespace TempStation.Data
 {
     public class TemperatureDbContext : DbContext, ITemperatureDbContext
     {
-        public DbSet<SensorTemperatureData> Temperatures { get; set; }
+        public DbSet<SensorTemperature> Temperatures { get; set; }
 
         public TemperatureDbContext(DbContextOptions<TemperatureDbContext> options) 
             : base(options)

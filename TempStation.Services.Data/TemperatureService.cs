@@ -10,34 +10,34 @@ namespace TempStation.Services.Data
 {
     public class TemperatureService : ITemperatureService
     {
-        private readonly IRepository<SensorTemperatureData> _temperatures;
+        private readonly IRepository<SensorTemperature> _temperatures;
 
-        public TemperatureService(IRepository<SensorTemperatureData> temperatures)
+        public TemperatureService(IRepository<SensorTemperature> temperatures)
         {
             _temperatures = temperatures;
         }
 
-        public async Task<int> Add(SensorTemperatureData temperature)
+        public async Task<int> Add(SensorTemperature temperature)
         {
             this._temperatures.Add(temperature);
             int result = await this._temperatures.SaveChangesAsync();
             return result;
         }
 
-        public IQueryable<SensorTemperatureData> All()
+        public IQueryable<SensorTemperature> All()
         {
             var all = this._temperatures.All();
             return all;
         }
 
-        public IQueryable<SensorTemperatureData> GetByTimeIntervalGroupedByHour(DateTime from, DateTime? To = null)
+        public IQueryable<SensorTemperature> GetByTimeIntervalGroupedByHour(DateTime from, DateTime? To = null)
         {
             var groupedTemperature = this._temperatures
                 .All()
                 .Where(t => t.DateTime >= from && (!To.HasValue || t.DateTime <= To))
                 .OrderByDescending(t => t.Id)
                 .GroupBy(t => new { t.DateTime.Date, t.DateTime.Hour })
-                .Select(g => new SensorTemperatureData
+                .Select(g => new SensorTemperature
                 {
                     DateTime = new DateTime(g.Key.Date.Year, g.Key.Date.Month, g.Key.Date.Day, g.Key.Hour, 0, 0).ToLocalTime(),
                     Temperature = g.Average(gt => gt.Temperature),
@@ -47,7 +47,7 @@ namespace TempStation.Services.Data
             return groupedTemperature;
         }
 
-        public async Task<SensorTemperatureData> GetLatest()
+        public async Task<SensorTemperature> GetLatest()
         {
             var latest = await this._temperatures.All()
                     .OrderByDescending(t => t.Id)
