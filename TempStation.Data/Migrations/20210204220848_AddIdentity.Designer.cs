@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TempStation.Data;
 
-namespace TempStation.Data.Migrations.TempStationIdentityDb
+namespace TempStation.Migrations
 {
-    [DbContext(typeof(TempStationIdentityDbContext))]
-    partial class TempStationIdentityDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(TemperatureDbContext))]
+    [Migration("20210204220848_AddIdentity")]
+    partial class AddIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,6 +148,26 @@ namespace TempStation.Data.Migrations.TempStationIdentityDb
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("TempStation.Data.Models.SensorTemperature", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("Humidity")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("Temperature")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Temperatures");
                 });
 
             modelBuilder.Entity("TempStation.Data.Models.TempStationUser", b =>

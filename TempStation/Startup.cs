@@ -35,6 +35,9 @@ namespace TempStation
                 options.UseSqlite(Configuration.GetConnectionString(Constants.DefaultConnectionStringConfigName),
                     b => b.MigrationsAssembly(Constants.EntityCoreMigrationAssembly)));
 
+            services.AddDefaultIdentity<TempStationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddEntityFrameworkStores<TemperatureDbContext>();
+
             services.AddSingleton(new Dht11(14));
             services.AddHostedService<DHTHostedService>();
 
