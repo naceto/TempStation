@@ -10,8 +10,6 @@ using TempStation.Services.Data.Contracts;
 
 namespace TempStation.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class SensorDataController : ControllerBase
     {
         private readonly ILogger<HomeController> _logger;
@@ -23,6 +21,13 @@ namespace TempStation.Controllers
         {
             _logger = logger;
             _temperatureService = temperatureService;
+        }
+
+        [HttpGet]
+        public IActionResult Ping()
+        {
+            _logger.LogInformation($"{nameof(SensorDataController.Get)} called.");
+            return Ok("Api is working!");
         }
 
         [HttpPost]
