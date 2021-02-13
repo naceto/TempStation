@@ -13,6 +13,6 @@ namespace TempStation.Services.Data.Contracts
 
         Task<int> Add(UserSensor userSensor);
 
-        Task<int> DeleteById(string id)
+        Task<int> DeleteById(string id);
     }
 }

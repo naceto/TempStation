@@ -43,7 +43,7 @@ namespace TempStation.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
-        public async Task<IActionResult> OnPostDelete(string userSensorId)
+        public async Task<IActionResult> OnPostDelete(string id)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -53,16 +53,16 @@ namespace TempStation.Areas.Identity.Pages.Account.Manage
 
             var userSensor = _userSensorsService
                 .AllByUserId(user.Id)
-                .Where(us => us.Id == userSensorId)
+                .Where(us => us.Id == id)
                 .FirstOrDefault();
 
             if (userSensor == null)
             {
-                return NotFound($"Unable to find user sensor with ID '{userSensorId}'.");
+                return NotFound($"Unable to find user sensor with ID '{id}'.");
 
             }
 
-            await _userSensorsService.DeleteById(userSensorId);
+            await _userSensorsService.DeleteById(id);
 
             return RedirectToPage("Sensors");
         }
