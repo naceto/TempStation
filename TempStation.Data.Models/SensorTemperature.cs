@@ -10,6 +10,7 @@ namespace TempStation.Data.Models
             DateTime = DateTime.UtcNow;
         }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
 
         public double Temperature { get; set; }
@@ -17,6 +18,8 @@ namespace TempStation.Data.Models
         public double Humidity { get; set; }
 
         public DateTime DateTime { get; set; }
+
+        public string UserSensorId { get; set; }
 
         [NotMapped]
         public bool IsLastReadSuccessful { get; set; }
