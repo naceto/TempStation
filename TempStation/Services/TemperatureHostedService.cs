@@ -49,16 +49,16 @@ namespace TempStation.Services
             var temperatureService = scope.ServiceProvider.GetService<ITemperatureService>();
             var latestTemperature = await temperatureService.GetLatest();
 
-            SensorTemperatureModel sensorTemperatureModel = null;
+            SensorTemperatureResponseModel sensorTemperatureModel = null;
             if (latestTemperature != null) {
-                sensorTemperatureModel = new SensorTemperatureModel(
+                sensorTemperatureModel = new SensorTemperatureResponseModel(
                     latestTemperature.Temperature,
                     latestTemperature.Humidity,
                     latestTemperature.DateTime);
             }
     
             var currentForecastData = await _forecastProvider.GetCurrentForecastAsync();
-            var forecastTemperatureModel = new ForecastTemperatureModel
+            var forecastTemperatureModel = new ForecastTemperatureResponseModel
             {
                 Temperature = currentForecastData.Temperature,
                 Icon = currentForecastData.Icon,

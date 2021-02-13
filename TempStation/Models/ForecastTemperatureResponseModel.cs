@@ -2,7 +2,7 @@
 
 namespace TempStation.Models
 {
-    public class ForecastTemperatureModel
+    public class ForecastTemperatureResponseModel
     {
         private double temperature;
         private double maxTemperature;

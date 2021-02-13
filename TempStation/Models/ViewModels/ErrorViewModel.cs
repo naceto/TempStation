@@ -1,4 +1,4 @@
-namespace TempStation.Models
+namespace TempStation.Models.ViewModels
 {
     public class ErrorViewModel
     {

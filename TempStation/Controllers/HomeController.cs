@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using TempStation.Core.ExternalDataProviders.ForecastProviders.Contracts;
 using TempStation.Models;
 using TempStation.Models.ChartsJs;
+using TempStation.Models.ViewModels;
 using TempStation.Services.Data.Contracts;
 
 namespace TempStation.Controllers
@@ -40,7 +41,7 @@ namespace TempStation.Controllers
             var latestTemperature = await _temperatureService.GetLatest();
             if (latestTemperature != null)
             {
-                indexViewModel.SensorTemperature = new SensorTemperatureModel(
+                indexViewModel.SensorTemperature = new SensorTemperatureResponseModel(
                     latestTemperature.Temperature,
                     latestTemperature.Humidity,
                     latestTemperature.DateTime);
@@ -48,7 +49,7 @@ namespace TempStation.Controllers
 
             // forecast data
             var currentForecastData = await _forecastProvider.GetCurrentForecastAsync();
-            indexViewModel.ForecastTemperature = new ForecastTemperatureModel
+            indexViewModel.ForecastTemperature = new ForecastTemperatureResponseModel
             {
                 Temperature = currentForecastData.Temperature,
                 Icon = currentForecastData.Icon,

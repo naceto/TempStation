@@ -38,8 +38,8 @@ namespace TempStation
             services.AddDefaultIdentity<TempStationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<TemperatureDbContext>();
 
-            services.AddSingleton(new Dht11(14));
-            services.AddHostedService<DHTHostedService>();
+            //services.AddSingleton(new Dht11(14));
+            //services.AddHostedService<DHTHostedService>();
 
             services.AddTransient<IRepository<SensorTemperature>, GenericRepository<SensorTemperature>>();
             services.AddTransient<ITemperatureService, Services.Data.TemperatureService>();
@@ -48,8 +48,8 @@ namespace TempStation
                 c.BaseAddress = new Uri(Configuration[Constants.OpenWeatherMapConfigBaseUrl]);
             });
 
-            services.AddSingleton<IForecastProvider, OpenWeatherMapForecastProvider>();
-            services.AddHostedService<TemperatureHostedService>();
+            //services.AddSingleton<IForecastProvider, OpenWeatherMapForecastProvider>();
+            //services.AddHostedService<TemperatureHostedService>();
 
             services.AddSignalR();
             services.AddControllersWithViews();

@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TempStation.Data.Models", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TempStation.Services.Data", "TempStation.Services.Data\TempStation.Services.Data.csproj", "{591F55E4-A914-4B38-9C8A-CAA19D8A6B85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TempStation.Core", "TempStation.Core\TempStation.Core.csproj", "{079E5C96-9BF8-455C-8638-2A7D67E93CC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TempStation.Core", "TempStation.Core\TempStation.Core.csproj", "{079E5C96-9BF8-455C-8638-2A7D67E93CC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
