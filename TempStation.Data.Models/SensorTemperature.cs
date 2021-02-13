@@ -10,7 +10,7 @@ namespace TempStation.Data.Models
             DateTime = DateTime.UtcNow;
         }
 
-        public long Id { get; set; }
+        public string Id { get; set; }
 
         public double Temperature { get; set; }
 
