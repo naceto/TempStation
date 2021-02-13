@@ -15,15 +15,26 @@ namespace TempStation.Services.Data
             _userSensors = userSensors;
         }
 
-        public IQueryable<UserSensor> AllByUserId(string id)
+        public IQueryable<UserSensor> AllByUserId(string userId)
         {
-            return _userSensors.All().Where(us => us.TempStationUserId == id);
+            var result = _userSensors
+                .All()
+                .Where(us => us.TempStationUserId == userId);
+
+            return result;
         }
 
         public async Task<int> Add(UserSensor userSensor)
         {
             _userSensors.Add(userSensor);
             int result = await _userSensors.SaveChangesAsync();
+            return result;
+        }
+
+        public async Task<int> DeleteById(string id)
+        {
+            _userSensors.Delete(id);
+            var result = await _userSensors.SaveChangesAsync();
             return result;
         }
     }

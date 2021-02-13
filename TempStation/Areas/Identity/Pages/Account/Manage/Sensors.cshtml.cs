@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using TempStation.Data.Models;
-using TempStation.Data.Repositories;
 using TempStation.Services.Data.Contracts;
 
 namespace TempStation.Areas.Identity.Pages.Account.Manage
@@ -43,6 +41,30 @@ namespace TempStation.Areas.Identity.Pages.Account.Manage
             Load(user);
 
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostDelete(string userSensorId)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var userSensor = _userSensorsService
+                .AllByUserId(user.Id)
+                .Where(us => us.Id == userSensorId)
+                .FirstOrDefault();
+
+            if (userSensor == null)
+            {
+                return NotFound($"Unable to find user sensor with ID '{userSensorId}'.");
+
+            }
+
+            await _userSensorsService.DeleteById(userSensorId);
+
+            return RedirectToPage("Sensors");
         }
     }
 }

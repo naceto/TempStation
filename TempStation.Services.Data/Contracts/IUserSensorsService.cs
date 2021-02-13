@@ -12,5 +12,7 @@ namespace TempStation.Services.Data.Contracts
         IQueryable<UserSensor> AllByUserId(string id);
 
         Task<int> Add(UserSensor userSensor);
+
+        Task<int> DeleteById(string id)
     }
 }

@@ -35,7 +35,7 @@ namespace TempStation.Services.Data
             var groupedTemperature = _mainSensorTemperatures
                 .All()
                 .Where(t => t.DateTime >= from && (!To.HasValue || t.DateTime <= To))
-                .OrderByDescending(t => t.Id)
+                .OrderByDescending(t => t.DateTime)
                 .GroupBy(t => new { t.DateTime.Date, t.DateTime.Hour })
                 .Select(g => new SensorTemperature
                 {
@@ -50,7 +50,7 @@ namespace TempStation.Services.Data
         public async Task<SensorTemperature> GetLatest()
         {
             var latest = await _mainSensorTemperatures.All()
-                    .OrderByDescending(t => t.Id)
+                    .OrderByDescending(t => t.DateTime)
                     .FirstOrDefaultAsync();
 
             return latest;
