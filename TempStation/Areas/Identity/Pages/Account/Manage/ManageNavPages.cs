@@ -26,6 +26,8 @@ namespace TempStation.Areas.Identity.Pages.Account.Manage
 
         public static string Sensors => "Sensors";
 
+        public static string AddSensor => "AddSensor";
+
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
         public static string EmailNavClass(ViewContext viewContext) => PageNavClass(viewContext, Email);

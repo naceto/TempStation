@@ -6,21 +6,32 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TempStation.Data.Models;
+using TempStation.Data.Repositories;
+using TempStation.Services.Data.Contracts;
 
 namespace TempStation.Areas.Identity.Pages.Account.Manage
 {
     public class SensorsModel : PageModel
     {
         private readonly UserManager<TempStationUser> _userManager;
-        private readonly SignInManager<TempStationUser> _signInManager;
+        private readonly IUserSensorsService _userSensorsService;
 
         public SensorsModel(
             UserManager<TempStationUser> userManager,
-            SignInManager<TempStationUser> signInManager)
+            IUserSensorsService userSensorsService)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
+            _userSensorsService = userSensorsService;
         }
+
+        [BindProperty]
+        public List<UserSensor> SensorListData { get; set; }
+
+        private void Load(TempStationUser user)
+        {
+            SensorListData = _userSensorsService.AllByUserId(user.Id).ToList();
+        }
+
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -28,6 +39,8 @@ namespace TempStation.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
+
+            Load(user);
 
             return Page();
         }

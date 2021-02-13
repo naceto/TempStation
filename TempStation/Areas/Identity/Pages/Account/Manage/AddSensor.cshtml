@@ -1,0 +1,30 @@
+﻿@page
+@model TempStation.Areas.Identity.Pages.Account.Manage.AddSensorModel
+@{
+    ViewData["Title"] = "Add Sensor";
+    ViewData["ActivePage"] = ManageNavPages.AddSensor;
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        <form id="add-sensor-form" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Name"></label>
+                <input asp-for="Input.Name" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.MacAddress"></label>
+                <input asp-for="Input.MacAddress" class="form-control" />
+                <span asp-validation-for="Input.MacAddress" class="text-danger"></span>
+            </div>
+            <button id="add-sensor-button" type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
