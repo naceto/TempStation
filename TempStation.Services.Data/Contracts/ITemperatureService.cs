@@ -13,6 +13,6 @@ namespace TempStation.Services.Data.Contracts
 
         Task<SensorTemperature> GetLatest();
 
-        Task<int> Add(SensorTemperature temperature);
+        Task<int> AddAsync(SensorTemperature temperature);
     }
 }

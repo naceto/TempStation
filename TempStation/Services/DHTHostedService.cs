@@ -50,7 +50,7 @@ namespace TempStation.Services
                 _logger.LogInformation("DHT LastReadSuccessful.");
                 using var scope = _serviceProvider.CreateScope();
                 var temperatureService = scope.ServiceProvider.GetService<ITemperatureService>();
-                var latestTemperature = await temperatureService.Add(temperature);
+                var latestTemperature = await temperatureService.AddAsync(temperature);
             }
         }
 
