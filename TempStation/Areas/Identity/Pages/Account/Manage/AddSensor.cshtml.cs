@@ -29,8 +29,10 @@ namespace TempStation.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            [Required]
             public string Name { get; set; }
 
+            [Required]
             [Display(Name = "MAC Address")]
             [StringLength(17, MinimumLength = 17, ErrorMessage = "The {0} field must be {1} characters.")]
             public string MacAddress { get; set; }

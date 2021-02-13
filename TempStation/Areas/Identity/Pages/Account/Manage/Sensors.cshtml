@@ -16,7 +16,7 @@
                 <table class="table table-striped border">
                     <tr class="table-secondary">
                         <th>
-                            <label asp-for="SensorListData.FirstOrDefault().Id"></label>
+                            <label asp-for="SensorListData.FirstOrDefault().Name"></label>
                         </th>
                         <th>
                             <label asp-for="SensorListData.FirstOrDefault().MacAddress"></label>
@@ -29,7 +29,7 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(m => item.Id)
+                                @Html.DisplayFor(m => item.Name)
                             </td>
                             <td>
                                 @Html.DisplayFor(m => item.MacAddress)
