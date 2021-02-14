@@ -19,7 +19,7 @@ namespace TempStation.Services.Data
         {
             var result = _userSensors
                 .All()
-                .FirstOrDefault(us => us.MacAddress.ToLowerInvariant() == macAddress.ToLowerInvariant());
+                .FirstOrDefault(us => us.MacAddress.ToLower() == macAddress.ToLower());
 
             return result;
         }
