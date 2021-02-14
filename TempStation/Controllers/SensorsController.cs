@@ -20,15 +20,18 @@ namespace TempStation.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<TempStationUser> _userManager;
         private readonly IUserSensorsService _userSensorsService;
+        private readonly ITemperatureService _temperatureService;
 
         public SensorsController(
             ILogger<HomeController> logger,
             UserManager<TempStationUser> userManager, 
-            IUserSensorsService userSensorsService)
+            IUserSensorsService userSensorsService,
+            ITemperatureService temperatureService)
         {
             _logger = logger;
             _userManager = userManager;
             _userSensorsService = userSensorsService;
+            _temperatureService = temperatureService;
         }
 
         [Authorize]
@@ -42,10 +45,7 @@ namespace TempStation.Controllers
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var sensors = _userSensorsService
-                .AllByUserId(user.Id)
-                .Include(us => us.SensorTemperatures
-                    .Where(st => st.DateTime > DateTime.UtcNow.AddHours(-24)));
+            var sensors = _userSensorsService.AllByUserId(user.Id);
 
             var listSensorData = new List<UserSensorsViewModel>();
             foreach (var sensor in sensors)
@@ -54,8 +54,7 @@ namespace TempStation.Controllers
                 {
                     Id = sensor.Id,
                     Name = sensor.Name,
-                    MacAddress = sensor.MacAddress,
-                    SensorData = sensor.SensorTemperatures.Where
+                    MacAddress = sensor.MacAddress
                 });
             }
 
