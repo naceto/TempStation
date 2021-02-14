@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TempStation.Data;
 
 namespace TempStation.Migrations
 {
     [DbContext(typeof(TemperatureDbContext))]
-    partial class TemperatureDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210213093917_Refactoring")]
+    partial class Refactoring
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -242,17 +244,10 @@ namespace TempStation.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("MacAddress")
-                        .IsRequired()
                         .HasMaxLength(17)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("TempStationUserId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

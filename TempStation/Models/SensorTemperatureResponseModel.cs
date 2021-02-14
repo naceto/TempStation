@@ -2,16 +2,16 @@ using System;
 
 namespace TempStation.Models
 {
-    public class SensorTemperatureModel
+    public class SensorTemperatureResponseModel
     {
-        public SensorTemperatureModel()
+        public SensorTemperatureResponseModel()
         {
             CurrentTemperature = "N/A";
             CurrentHumidity = "N/A";
             TakenAtTime = "N/A";
         }
 
-        public SensorTemperatureModel(double temperature, double humidity, DateTime takenAtTime)
+        public SensorTemperatureResponseModel(double temperature, double humidity, DateTime takenAtTime)
         {
             CurrentTemperature = Math.Round(temperature, 2).ToString();
             CurrentHumidity = Math.Round(humidity, 2).ToString();

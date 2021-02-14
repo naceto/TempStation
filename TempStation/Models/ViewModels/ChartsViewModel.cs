@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using TempStation.Models.ChartsJs;
 
-namespace TempStation.Models
+namespace TempStation.Models.ViewModels
 {
     public class ChartsViewModel
     {

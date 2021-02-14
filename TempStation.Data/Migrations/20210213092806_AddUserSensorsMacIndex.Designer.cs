@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TempStation.Data;
 
 namespace TempStation.Migrations
 {
     [DbContext(typeof(TemperatureDbContext))]
-    partial class TemperatureDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210213092806_AddUserSensorsMacIndex")]
+    partial class AddUserSensorsMacIndex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -151,10 +153,13 @@ namespace TempStation.Migrations
             modelBuilder.Entity("TempStation.Data.Models.SensorTemperature", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<double>("Humidity")
@@ -163,12 +168,11 @@ namespace TempStation.Migrations
                     b.Property<double>("Temperature")
                         .HasColumnType("REAL");
 
-                    b.Property<string>("UserSensorId")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
-                    b.ToTable("SensorTemperatures");
+                    b.ToTable("MainSensorTemperatures");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("SensorTemperature");
                 });
 
             modelBuilder.Entity("TempStation.Data.Models.TempStationUser", b =>
@@ -238,21 +242,13 @@ namespace TempStation.Migrations
             modelBuilder.Entity("TempStation.Data.Models.UserSensor", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("MacAddress")
-                        .IsRequired()
                         .HasMaxLength(17)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("TempStationUserId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -261,6 +257,16 @@ namespace TempStation.Migrations
                         .IsUnique();
 
                     b.ToTable("UserSensors");
+                });
+
+            modelBuilder.Entity("TempStation.Data.Models.UserSensorTemperature", b =>
+                {
+                    b.HasBaseType("TempStation.Data.Models.SensorTemperature");
+
+                    b.Property<string>("UserSensorId")
+                        .HasColumnType("TEXT");
+
+                    b.HasDiscriminator().HasValue("UserSensorTemperature");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

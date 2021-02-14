@@ -3,20 +3,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TempStation.Data.Models
 {
-    public class SensorTemperatureData
+    public class SensorTemperature
     {
-        public SensorTemperatureData()
+        public SensorTemperature()
         {
             DateTime = DateTime.UtcNow;
         }
 
-        public long Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string Id { get; set; }
 
         public double Temperature { get; set; }
 
         public double Humidity { get; set; }
 
         public DateTime DateTime { get; set; }
+
+        public string UserSensorId { get; set; }
 
         [NotMapped]
         public bool IsLastReadSuccessful { get; set; }

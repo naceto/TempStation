@@ -6,7 +6,9 @@ namespace TempStation.Data
 {
     public interface ITemperatureDbContext
     {
-        DbSet<SensorTemperatureData> Temperatures { get; set; }
+        DbSet<SensorTemperature> SensorTemperatures { get; set; }
+
+        DbSet<UserSensor> UserSensors { get; set; }
 
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
 

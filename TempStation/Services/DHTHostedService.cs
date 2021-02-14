@@ -38,7 +38,7 @@ namespace TempStation.Services
         private async void DoWork(object state)
         {
             _logger.LogInformation("DHT Service is working.");
-            var temperature = new SensorTemperatureData
+            var temperature = new SensorTemperature
             {
                 Temperature = _dht.Temperature.Value,
                 Humidity = _dht.Humidity.Value,
@@ -50,7 +50,7 @@ namespace TempStation.Services
                 _logger.LogInformation("DHT LastReadSuccessful.");
                 using var scope = _serviceProvider.CreateScope();
                 var temperatureService = scope.ServiceProvider.GetService<ITemperatureService>();
-                var latestTemperature = await temperatureService.Add(temperature);
+                var latestTemperature = await temperatureService.AddAsync(temperature);
             }
         }
 
