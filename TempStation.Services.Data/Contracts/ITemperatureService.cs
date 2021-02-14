@@ -9,9 +9,7 @@ namespace TempStation.Services.Data.Contracts
     {
         IQueryable<SensorTemperature> All();
 
-        IQueryable<SensorTemperature> GetByTimeIntervalGroupedByHour(DateTime from, DateTime? To = null);
-
-        IQueryable<SensorTemperature> GetBySensorIdAndByStartTimeGroupedByHour(string userId, DateTime from);
+        IQueryable<SensorTemperature> GetByTimeIntervalGroupedByHour(DateTime from, DateTime? To = null, string sensorId = null);
 
         Task<SensorTemperature> GetLatest();
 

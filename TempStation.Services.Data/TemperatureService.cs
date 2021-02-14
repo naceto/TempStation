@@ -37,11 +37,23 @@ namespace TempStation.Services.Data
             return all;
         }
 
-        public IQueryable<SensorTemperature> GetByTimeIntervalGroupedByHour(DateTime from, DateTime? To = null)
+        public IQueryable<SensorTemperature> GetByTimeIntervalGroupedByHour(
+            DateTime from, DateTime? To = null, string sensorId = null)
         {
-            var groupedTemperature = _sensorTemperatures
-                .All()
-                .Where(t => t.UserSensor == null && t.DateTime >= from && (!To.HasValue || t.DateTime <= To))
+            var temperatures = _sensorTemperatures.All();
+            if (sensorId != null)
+            {
+                temperatures = temperatures
+                    .Include(t => t.UserSensor)
+                    .Where(t => t.UserSensor != null && t.UserSensor.Id == sensorId);
+            }
+            else
+            {
+                temperatures = temperatures.Where(t => t.UserSensor == null);
+            }
+
+            temperatures
+                .Where(t => t.DateTime >= from && (!To.HasValue || t.DateTime <= To))
                 .OrderByDescending(t => t.DateTime)
                 .GroupBy(t => new { t.DateTime.Date, t.DateTime.Hour })
                 .Select(g => new SensorTemperature
@@ -51,25 +63,7 @@ namespace TempStation.Services.Data
                     Humidity = g.Average(gt => gt.Humidity)
                 });
 
-            return groupedTemperature;
-        }
-
-        public IQueryable<SensorTemperature> GetBySensorIdAndByStartTimeGroupedByHour(string sensorId, DateTime from)
-        {
-            var groupedTemperature = _sensorTemperatures
-                .All()
-                .Include(t => t.UserSensor)
-                .Where(t => t.UserSensor != null && t.UserSensor.Id == sensorId && t.DateTime >= from)
-                .OrderByDescending(t => t.DateTime)
-                .GroupBy(t => new { t.DateTime.Date, t.DateTime.Hour })
-                .Select(g => new SensorTemperature
-                {
-                    DateTime = new DateTime(g.Key.Date.Year, g.Key.Date.Month, g.Key.Date.Day, g.Key.Hour, 0, 0).ToLocalTime(),
-                    Temperature = g.Average(gt => gt.Temperature),
-                    Humidity = g.Average(gt => gt.Humidity)
-                });
-
-            return groupedTemperature;
+            return temperatures;
         }
 
         public async Task<SensorTemperature> GetLatest()

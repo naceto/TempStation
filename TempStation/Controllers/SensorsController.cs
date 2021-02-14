@@ -74,7 +74,6 @@ namespace TempStation.Controllers
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-
             var tempChartData = new ChartData<double>
             {
                 Datasets = new List<ChartDataset<double>>
@@ -104,7 +103,7 @@ namespace TempStation.Controllers
             };
 
             var sensorTemperatureData = await _temperatureService
-                .GetBySensorIdAndByStartTimeGroupedByHour(id, DateTime.UtcNow.AddDays(-24))
+                .GetByTimeIntervalGroupedByHour(DateTime.UtcNow.AddDays(-24), sensorId: id)
                 .ToListAsync();
 
             var labels = new List<string>();
