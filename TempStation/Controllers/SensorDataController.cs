@@ -40,16 +40,11 @@ namespace TempStation.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userSensor = _userSensorService.GetBySensorId(requestSensorData.SensorId);
+            var userSensor = _userSensorService.GetByMacAddress(requestSensorData.MacAddress);
 
             if (userSensor == null)
             {
-                return BadRequest($"Sensor with id: {requestSensorData.SensorId} does not exist.");
-            }
-
-            if (userSensor.MacAddress.ToLowerInvariant() != requestSensorData.MacAddress.ToLowerInvariant())
-            {
-                return BadRequest($"MAC address missmatch: {requestSensorData.MacAddress}.");
+                return BadRequest($"Sensor with MAC: {requestSensorData.MacAddress} does not exist.");
             }
 
             await _temperatureService.AddAsync(new SensorTemperature

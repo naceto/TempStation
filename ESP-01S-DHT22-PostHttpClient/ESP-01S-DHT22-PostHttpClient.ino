@@ -12,8 +12,7 @@
 #define STAPSK  "STAPSK"
 #endif
 
-#define APIKEY "SensorID"
-#define SERVER_URL "YourServerUrl"
+#define SERVER_POST_URL "SERVER_POST_URL"
 
 DHT dht(DHTPIN, DHTTYPE); // Configure DHT library
 
@@ -48,7 +47,6 @@ void setup() {
 
   dht.begin();
 
-  doc["SensorId"] = APIKEY;
   doc["MacAddress"] = macAddress;
 }
 
@@ -73,8 +71,10 @@ void loop() {
       return;
     }
 
+    float heatIndexTemperature = dht.computeHeatIndex(temperature, humidity, false);
+
     // prepare JSON data
-    doc["Temperature"] = temperature;
+    doc["Temperature"] = heatIndexTemperature;
     doc["Humidity"] = humidity;
 
     // Produce a minified JSON document
@@ -89,7 +89,7 @@ void loop() {
     HTTPClient http;
     
     // configure traged server and url
-    http.begin(client, SERVER_URL);
+    http.begin(client, SERVER_POST_URL);
     http.addHeader("Content-Type", "application/json");
     
     // start connection and send HTTP header and body

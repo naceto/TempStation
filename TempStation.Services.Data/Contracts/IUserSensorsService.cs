@@ -9,6 +9,8 @@ namespace TempStation.Services.Data.Contracts
 {
     public interface IUserSensorsService
     {
+        UserSensor GetByMacAddress(string macAddress);
+
         UserSensor GetBySensorId(string sensorId);
 
         IQueryable<UserSensor> AllByUserId(string id);

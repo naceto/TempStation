@@ -4,10 +4,10 @@ namespace TempStation.Models.ApiModels
 {
     public class SensorDataPostModel
     {
-        public string SensorId { get; set; }
-
+        [Required]
         public double Temperature { get; set; }
 
+        [Required]
         public double Humidity { get; set; }
 
         [Required]

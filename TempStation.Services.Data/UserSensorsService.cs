@@ -15,6 +15,15 @@ namespace TempStation.Services.Data
             _userSensors = userSensors;
         }
 
+        public UserSensor GetByMacAddress(string macAddress)
+        {
+            var result = _userSensors
+                .All()
+                .FirstOrDefault(us => us.MacAddress.ToLowerInvariant() == macAddress.ToLowerInvariant());
+
+            return result;
+        }
+
         public UserSensor GetBySensorId(string sensorId)
         {
             var result = _userSensors
