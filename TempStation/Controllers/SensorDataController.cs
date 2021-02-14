@@ -16,10 +16,12 @@ namespace TempStation.Controllers
 
         public SensorDataController(
             ILogger<HomeController> logger,
-            ITemperatureService temperatureService)
+            ITemperatureService temperatureService,
+            IUserSensorsService userSensorService)
         {
             _logger = logger;
             _temperatureService = temperatureService;
+            _userSensorService = userSensorService;
         }
 
         [HttpGet]
@@ -30,7 +32,7 @@ namespace TempStation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(SensorDataPostModel sensorData)
+        public async Task<IActionResult> Post([FromBody] SensorDataPostModel sensorData)
         {
             _logger.LogInformation($"{nameof(SensorDataController.Post)} called.");
 
