@@ -71,10 +71,8 @@ void loop() {
       return;
     }
 
-    float heatIndexTemperature = dht.computeHeatIndex(temperature, humidity, false);
-
     // prepare JSON data
-    doc["Temperature"] = heatIndexTemperature;
+    doc["Temperature"] = temperature;
     doc["Humidity"] = humidity;
 
     // Produce a minified JSON document
