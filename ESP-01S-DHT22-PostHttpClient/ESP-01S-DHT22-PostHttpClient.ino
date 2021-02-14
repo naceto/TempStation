@@ -113,5 +113,6 @@ void loop() {
     http.end();
   }
 
-  delay(10000);
+  // wait 30 seconds
+  delay(30000);
 }
