@@ -41,7 +41,6 @@ namespace TempStation.Controllers
             }
 
             var userSensor = _userSensorService.GetByMacAddress(requestSensorData.MacAddress);
-
             if (userSensor == null)
             {
                 return BadRequest($"Sensor with MAC: {requestSensorData.MacAddress} does not exist.");
@@ -51,10 +50,7 @@ namespace TempStation.Controllers
             {
                 Humidity = requestSensorData.Humidity,
                 Temperature = requestSensorData.Temperature,
-                UserSensor = new UserSensor
-                {
-                    Id = userSensor.Id
-                }
+                UserSensor = userSensor
             });
 
             return Ok();
