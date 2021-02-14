@@ -51,15 +51,16 @@ namespace TempStation.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var userSensor = _userSensorsService
-                .AllByUserId(user.Id)
-                .Where(us => us.Id == id)
-                .FirstOrDefault();
+            var userSensor = _userSensorsService.GetBySensorId(id);
 
             if (userSensor == null)
             {
                 return NotFound($"Unable to find user sensor with ID '{id}'.");
+            }
 
+            if (userSensor.TempStationUserId != user.Id)
+            {
+                return NotFound($"This sensor does not belong to you.");
             }
 
             await _userSensorsService.DeleteById(id);

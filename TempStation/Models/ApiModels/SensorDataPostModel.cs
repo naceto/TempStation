@@ -1,13 +1,16 @@
-﻿namespace TempStation.Models.ApiModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TempStation.Models.ApiModels
 {
     public class SensorDataPostModel
     {
-        public string UserId { get; set; }
+        public string SensorId { get; set; }
 
         public double Temperature { get; set; }
 
         public double Humidity { get; set; }
 
+        [Required]
         public string MacAddress { get; set; }
     }
 }

@@ -9,6 +9,8 @@ namespace TempStation.Services.Data.Contracts
 {
     public interface IUserSensorsService
     {
+        UserSensor GetBySensorId(string sensorId);
+
         IQueryable<UserSensor> AllByUserId(string id);
 
         Task<int> Add(UserSensor userSensor);

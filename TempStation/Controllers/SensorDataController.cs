@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Linq;
 using System.Threading.Tasks;
 using TempStation.Data.Models;
 using TempStation.Models.ApiModels;
@@ -32,7 +31,7 @@ namespace TempStation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] SensorDataPostModel sensorData)
+        public async Task<IActionResult> Post([FromBody] SensorDataPostModel requestSensorData)
         {
             _logger.LogInformation($"{nameof(SensorDataController.Post)} called.");
 
@@ -41,20 +40,22 @@ namespace TempStation.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userSensor = _userSensorService
-                .AllByUserId(sensorData.UserId)
-                .Where(us => us.MacAddress == sensorData.MacAddress)
-                .FirstOrDefault();
+            var userSensor = _userSensorService.GetBySensorId(requestSensorData.SensorId);
 
             if (userSensor == null)
             {
-                return BadRequest($"Sensor for user Id: {sensorData.UserId} with MAC address: {sensorData.MacAddress} does not exists.");
+                return BadRequest($"Sensor with id: {requestSensorData.SensorId} does not exist.");
+            }
+
+            if (userSensor.MacAddress.ToLowerInvariant() != requestSensorData.MacAddress.ToLowerInvariant())
+            {
+                return BadRequest($"MAC address missmatch: {requestSensorData.MacAddress}.");
             }
 
             await _temperatureService.AddAsync(new SensorTemperature
             {
-                Humidity = sensorData.Humidity,
-                Temperature = sensorData.Temperature,
+                Humidity = requestSensorData.Humidity,
+                Temperature = requestSensorData.Temperature,
                 UserSensorId = userSensor.Id
             });
 

@@ -15,6 +15,15 @@ namespace TempStation.Services.Data
             _userSensors = userSensors;
         }
 
+        public UserSensor GetBySensorId(string sensorId)
+        {
+            var result = _userSensors
+                .All()
+                .FirstOrDefault(us => us.Id == sensorId);
+
+            return result;
+        }
+
         public IQueryable<UserSensor> AllByUserId(string userId)
         {
             var result = _userSensors

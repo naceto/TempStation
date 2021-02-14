@@ -64,7 +64,7 @@ namespace TempStation.Areas.Identity.Pages.Account.Manage
 
             await _userSensorsService.Add(new UserSensor
             {
-                MacAddress = Input.MacAddress,
+                MacAddress = Input.MacAddress.ToLowerInvariant(),
                 Name = Input.Name,
                 TempStationUserId = user.Id
             });
