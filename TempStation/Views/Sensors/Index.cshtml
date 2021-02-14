@@ -38,7 +38,9 @@
                                 @Html.DisplayFor(m => item.MacAddress)
                             </td>
                             <td>
-                                <button class="btn btn-success btn-sm">
+                                <button asp-controller="Sensors" 
+                                        asp-action="ViewSensorData" 
+                                        asp-route-id="@item.Id" class="btn btn-success btn-sm">
                                     View Data
                                 </button>
                             </td>

@@ -1,0 +1,15 @@
+﻿@using Newtonsoft.Json;
+
+@model ChartsViewModel
+@{
+    ViewData["Title"] = "Charts";
+}
+
+<div class="text-center">
+    <canvas id="temp-chart"></canvas>
+    <canvas id="humi-chart"></canvas>
+    <div id="temp-json-data" class="d-none">@Html.Raw(JsonConvert.SerializeObject(Model))</div>
+    @section Scripts {
+        <script src="~/js/charts.js" asp-append-version="true"></script>
+    }
+</div>

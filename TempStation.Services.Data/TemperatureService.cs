@@ -54,13 +54,12 @@ namespace TempStation.Services.Data
             return groupedTemperature;
         }
 
-        public IQueryable<SensorTemperature> GetByUserIdAndByStartTimeGroupedByHour(string userId, DateTime from)
+        public IQueryable<SensorTemperature> GetBySensorIdAndByStartTimeGroupedByHour(string sensorId, DateTime from)
         {
             var groupedTemperature = _sensorTemperatures
                 .All()
                 .Include(t => t.UserSensor)
-                .ThenInclude(us => us.TempStationUser)
-                .Where(t => t.UserSensor != null && t.UserSensor.TempStationUser.Id == userId && t.DateTime >= from)
+                .Where(t => t.UserSensor != null && t.UserSensor.Id == sensorId && t.DateTime >= from)
                 .OrderByDescending(t => t.DateTime)
                 .GroupBy(t => new { t.DateTime.Date, t.DateTime.Hour })
                 .Select(g => new SensorTemperature
