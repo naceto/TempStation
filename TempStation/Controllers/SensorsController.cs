@@ -42,7 +42,10 @@ namespace TempStation.Controllers
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var sensors = _userSensorsService.AllByUserId(user.Id);
+            var sensors = _userSensorsService
+                .AllByUserId(user.Id)
+                .Include(us => us.SensorTemperatures
+                    .Where(st => st.DateTime > DateTime.UtcNow.AddHours(-24)));
 
             var listSensorData = new List<UserSensorsViewModel>();
             foreach (var sensor in sensors)
@@ -51,7 +54,8 @@ namespace TempStation.Controllers
                 {
                     Id = sensor.Id,
                     Name = sensor.Name,
-                    MacAddress = sensor.MacAddress
+                    MacAddress = sensor.MacAddress,
+                    SensorData = sensor.SensorTemperatures.Where
                 });
             }
 

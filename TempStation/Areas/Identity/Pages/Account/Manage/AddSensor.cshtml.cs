@@ -66,10 +66,7 @@ namespace TempStation.Areas.Identity.Pages.Account.Manage
             {
                 MacAddress = Input.MacAddress.ToLower(),
                 Name = Input.Name,
-                TempStationUser = new TempStationUser
-                {
-                    Id = user.Id
-                }
+                TempStationUser = user
             });
 
             StatusMessage = "The sensor has been added.";

@@ -11,6 +11,8 @@ namespace TempStation.Services.Data.Contracts
 
         IQueryable<SensorTemperature> GetByTimeIntervalGroupedByHour(DateTime from, DateTime? To = null);
 
+        IQueryable<SensorTemperature> GetByUserIdAndByStartTimeGroupedByHour(string userId, DateTime from);
+
         Task<SensorTemperature> GetLatest();
 
         Task<int> AddAsync(SensorTemperature temperature);

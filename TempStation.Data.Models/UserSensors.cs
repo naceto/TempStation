@@ -23,6 +23,6 @@ namespace TempStation.Data.Models
         [Required]
         public string MacAddress { get; set; }
 
-        public List<SensorTemperature> SensorTemperatures { get; set; }
+        public virtual List<SensorTemperature> SensorTemperatures { get; set; }
     }
 }

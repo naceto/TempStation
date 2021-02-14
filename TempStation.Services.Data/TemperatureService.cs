@@ -54,6 +54,25 @@ namespace TempStation.Services.Data
             return groupedTemperature;
         }
 
+        public IQueryable<SensorTemperature> GetByUserIdAndByStartTimeGroupedByHour(string userId, DateTime from)
+        {
+            var groupedTemperature = _sensorTemperatures
+                .All()
+                .Include(t => t.UserSensor)
+                .ThenInclude(us => us.TempStationUser)
+                .Where(t => t.UserSensor != null && t.UserSensor.TempStationUser.Id == userId && t.DateTime >= from)
+                .OrderByDescending(t => t.DateTime)
+                .GroupBy(t => new { t.DateTime.Date, t.DateTime.Hour })
+                .Select(g => new SensorTemperature
+                {
+                    DateTime = new DateTime(g.Key.Date.Year, g.Key.Date.Month, g.Key.Date.Day, g.Key.Hour, 0, 0).ToLocalTime(),
+                    Temperature = g.Average(gt => gt.Temperature),
+                    Humidity = g.Average(gt => gt.Humidity)
+                });
+
+            return groupedTemperature;
+        }
+
         public async Task<SensorTemperature> GetLatest()
         {
             var latest = await _sensorTemperatures.All()

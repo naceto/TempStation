@@ -41,8 +41,9 @@ namespace TempStation
             services.AddSingleton(new Dht11(14));
             services.AddHostedService<DHTHostedService>();
 
-            services.AddTransient<IRepository<SensorTemperature>, GenericRepository<SensorTemperature>>();
+            services.AddTransient<IRepository<TempStationUser>, GenericRepository<TempStationUser>>();
             services.AddTransient<IRepository<UserSensor>, GenericRepository<UserSensor>>();
+            services.AddTransient<IRepository<SensorTemperature>, GenericRepository<SensorTemperature>>();
 
             services.AddTransient<ITemperatureService, Services.Data.TemperatureService>();
             services.AddTransient<IUserSensorsService, Services.Data.UserSensorsService>();
