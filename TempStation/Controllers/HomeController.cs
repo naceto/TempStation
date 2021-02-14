@@ -61,7 +61,6 @@ namespace TempStation.Controllers
             return View(indexViewModel);
         }
 
-        [ResponseCache(Duration = 60 * 60, Location = ResponseCacheLocation.Any)]
         public async Task<IActionResult> Charts() 
         {
             var tempChartData = new ChartData<double>
@@ -115,6 +114,12 @@ namespace TempStation.Controllers
             };
 
             return View(chartViewData);
+        }
+
+        public async Task<IActionResult> MySensors() 
+        {
+
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
