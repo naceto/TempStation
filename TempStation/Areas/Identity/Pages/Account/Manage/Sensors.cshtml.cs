@@ -58,7 +58,7 @@ namespace TempStation.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to find user sensor with ID '{id}'.");
             }
 
-            if (userSensor.TempStationUserId != user.Id)
+            if (userSensor.TempStationUser?.Id != user.Id)
             {
                 return NotFound($"This sensor does not belong to you.");
             }

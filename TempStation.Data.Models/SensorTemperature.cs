@@ -19,7 +19,7 @@ namespace TempStation.Data.Models
 
         public DateTime DateTime { get; set; }
 
-        public string UserSensorId { get; set; }
+        public UserSensor UserSensor { get; set; }
 
         [NotMapped]
         public bool IsLastReadSuccessful { get; set; }

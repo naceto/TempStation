@@ -51,7 +51,10 @@ namespace TempStation.Controllers
             {
                 Humidity = requestSensorData.Humidity,
                 Temperature = requestSensorData.Temperature,
-                UserSensorId = userSensor.Id
+                UserSensor = new UserSensor
+                {
+                    Id = userSensor.Id
+                }
             });
 
             return Ok();

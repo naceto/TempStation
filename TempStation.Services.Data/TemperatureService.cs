@@ -10,31 +10,38 @@ namespace TempStation.Services.Data
 {
     public class TemperatureService : ITemperatureService
     {
-        private readonly IRepository<SensorTemperature> _mainSensorTemperatures;
+        private readonly IRepository<SensorTemperature> _sensorTemperatures;
+        private readonly IRepository<TempStationUser> _tempStationUsers;
+        private readonly IRepository<UserSensor> _userSensors;
 
-        public TemperatureService(IRepository<SensorTemperature> mainSensorTemperatures)
+        public TemperatureService(
+            IRepository<SensorTemperature> mainSensorTemperatures,
+            IRepository<TempStationUser> tempStationUsers,
+            IRepository<UserSensor> userSensors)
         {
-            _mainSensorTemperatures = mainSensorTemperatures;
+            _sensorTemperatures = mainSensorTemperatures;
+            _tempStationUsers = tempStationUsers;
+            _userSensors = userSensors;
         }
 
         public async Task<int> AddAsync(SensorTemperature temperature)
         {
-            this._mainSensorTemperatures.Add(temperature);
-            int result = await _mainSensorTemperatures.SaveChangesAsync();
+            _sensorTemperatures.Add(temperature);
+            int result = await _sensorTemperatures.SaveChangesAsync();
             return result;
         }
 
         public IQueryable<SensorTemperature> All()
         {
-            var all = _mainSensorTemperatures.All();
+            var all = _sensorTemperatures.All();
             return all;
         }
 
         public IQueryable<SensorTemperature> GetByTimeIntervalGroupedByHour(DateTime from, DateTime? To = null)
         {
-            var groupedTemperature = _mainSensorTemperatures
+            var groupedTemperature = _sensorTemperatures
                 .All()
-                .Where(t => t.UserSensorId == null && t.DateTime >= from && (!To.HasValue || t.DateTime <= To))
+                .Where(t => t.UserSensor == null && t.DateTime >= from && (!To.HasValue || t.DateTime <= To))
                 .OrderByDescending(t => t.DateTime)
                 .GroupBy(t => new { t.DateTime.Date, t.DateTime.Hour })
                 .Select(g => new SensorTemperature
@@ -49,8 +56,8 @@ namespace TempStation.Services.Data
 
         public async Task<SensorTemperature> GetLatest()
         {
-            var latest = await _mainSensorTemperatures.All()
-                .Where(t => t.UserSensorId == null)
+            var latest = await _sensorTemperatures.All()
+                .Where(t => t.UserSensor == null)
                 .OrderByDescending(t => t.DateTime)
                 .FirstOrDefaultAsync();
 

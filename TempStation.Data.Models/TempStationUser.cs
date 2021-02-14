@@ -9,5 +9,6 @@ namespace TempStation.Data.Models
     // Add profile data for application users by adding properties to the TempStationUser class
     public class TempStationUser : IdentityUser
     {
+        public List<UserSensor> UserSensors { get; set; }
     }
 }

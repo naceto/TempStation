@@ -37,7 +37,7 @@ namespace TempStation.Services.Data
         {
             var result = _userSensors
                 .All()
-                .Where(us => us.TempStationUserId == userId);
+                .Where(us => us.TempStationUser != null && us.TempStationUser.Id == userId);
 
             return result;
         }

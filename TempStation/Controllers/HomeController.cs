@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using TempStation.Core.ExternalDataProviders.ForecastProviders.Contracts;
 using TempStation.Models;
@@ -18,6 +16,7 @@ namespace TempStation.Controllers
     public class HomeController : Controller
     {
         private const string TimeFormat = "H:mm";
+
         private readonly ILogger<HomeController> _logger;
         private readonly ITemperatureService _temperatureService;
         private readonly IForecastProvider _forecastProvider;
@@ -64,6 +63,8 @@ namespace TempStation.Controllers
 
         public async Task<IActionResult> Charts() 
         {
+            _logger.LogInformation($"{nameof(HomeController.Charts)} called.");
+
             var tempChartData = new ChartData<double>
             {
                 Datasets = new List<ChartDataset<double>>
@@ -117,16 +118,11 @@ namespace TempStation.Controllers
             return View(chartViewData);
         }
 
-        [Authorize]
-        public async Task<IActionResult> MySensors() 
-        {
-
-            return View();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
+            _logger.LogInformation($"{nameof(HomeController.Error)} called.");
+
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
