@@ -52,7 +52,7 @@ namespace TempStation.Services.Data
                 temperatures = temperatures.Where(t => t.UserSensor == null);
             }
 
-            temperatures
+            temperatures = temperatures
                 .Where(t => t.DateTime >= from && (!To.HasValue || t.DateTime <= To))
                 .OrderByDescending(t => t.DateTime)
                 .GroupBy(t => new { t.DateTime.Date, t.DateTime.Hour })
